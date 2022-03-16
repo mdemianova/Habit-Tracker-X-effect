@@ -9,7 +9,7 @@ data class BoardWithWeeks(
     @Embedded val board: Board,
     @Relation(
         parentColumn = "id",
-        entityColumn = "board_id"
+        entityColumn = "boardId"
     )
     val weeks: List<Week>
 )

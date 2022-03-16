@@ -10,6 +10,6 @@ data class Board(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val title: String,
-    val is_active: Boolean,
-    val start_date: Long
+    val isActive: Boolean,
+    val startDate: Long
 )

@@ -10,7 +10,7 @@ data class BoardWithDays(
     @Embedded val board: Board,
     @Relation(
         parentColumn = "id",
-        entityColumn = "board_id"
+        entityColumn = "boardId"
     )
     val days: List<Day>
 )

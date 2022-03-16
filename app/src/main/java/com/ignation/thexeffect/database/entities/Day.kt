@@ -9,7 +9,6 @@ import com.ignation.thexeffect.model.Day
 data class Day(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
-    val board_id: Long,
+    val boardId: Long,
     val date: Long,
-    val is_checked: Boolean
 )

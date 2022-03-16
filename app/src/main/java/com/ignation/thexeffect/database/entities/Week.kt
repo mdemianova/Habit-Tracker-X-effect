@@ -9,8 +9,6 @@ import com.ignation.thexeffect.model.Day
 data class Week(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
-    val board_id: Long,
-    val index: Int,
-    val is_active: Boolean,
-
+    val boardId: Long,
+    val index: Int
 )
