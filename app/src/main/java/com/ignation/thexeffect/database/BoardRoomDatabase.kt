@@ -5,8 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.ignation.thexeffect.database.entities.Board
 
-@Database(entities = [BoardDatabase::class], version = 1, exportSchema = false)
+@Database(entities = [Board::class], version = 1, exportSchema = false)
 @TypeConverters(DataConverters::class)
 abstract class BoardRoomDatabase : RoomDatabase() {
     abstract fun boardDao(): BoardDao
