@@ -1,4 +1,4 @@
-package com.ignation.thexeffect.ui
+package com.ignation.thexeffect.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -15,12 +15,12 @@ fun BoardComponent(board: Board) {
             text = board.title,
             modifier = Modifier.padding(start = 14.dp)
         )
-        WeekComponent(week = board.weekOne)
-        WeekComponent(week = board.weekTwo)
-        WeekComponent(week = board.weekThree)
-        WeekComponent(week = board.weekFour)
-        WeekComponent(week = board.weekFive)
-        WeekComponent(week = board.weekSix)
-        WeekComponent(week = board.weekSeven)
+        WeekComponent()
+        WeekComponent()
+        WeekComponent()
+        WeekComponent()
+        WeekComponent()
+        WeekComponent()
+        WeekComponent()
     }
 }

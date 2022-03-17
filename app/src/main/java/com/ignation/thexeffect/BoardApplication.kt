@@ -1,8 +1,7 @@
 package com.ignation.thexeffect
 
 import android.app.Application
-import com.ignation.thexeffect.database.BoardRoomDatabase
+import dagger.hilt.android.HiltAndroidApp
 
-class BoardApplication : Application() {
-    val database: BoardRoomDatabase by lazy { BoardRoomDatabase.getDatabase(this) }
-}
+@HiltAndroidApp
+class BoardApplication : Application()

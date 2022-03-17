@@ -2,9 +2,10 @@ package com.ignation.thexeffect.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ignation.thexeffect.model.Board
-import com.ignation.thexeffect.model.Day
 
+/**
+ * Table for storing successful days.
+ */
 @Entity
 data class Day(
     @PrimaryKey(autoGenerate = true)
