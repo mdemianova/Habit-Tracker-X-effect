@@ -15,8 +15,8 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import com.ignation.thexeffect.model.Day
-import com.ignation.thexeffect.model.DayStatus
+import com.ignation.thexeffect.models.Day
+import com.ignation.thexeffect.models.DayStatus
 import com.ignation.thexeffect.ui.theme.BoxStandard
 
 const val DAY_COMPONENT_SIZE = 34

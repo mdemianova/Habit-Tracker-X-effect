@@ -4,13 +4,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /**
- * Stores user comments for weeks.
+ * Table for storing successful days.
  */
 @Entity
-data class Week(
+data class DayDatabase(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val boardId: Long,
-    val index: Int,
-    val comment: String
+    val date: Long,
 )

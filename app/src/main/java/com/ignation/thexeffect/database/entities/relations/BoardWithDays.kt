@@ -2,15 +2,14 @@ package com.ignation.thexeffect.database.entities.relations
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.ignation.thexeffect.database.entities.Board
-import com.ignation.thexeffect.database.entities.Day
-import com.ignation.thexeffect.database.entities.Week
+import com.ignation.thexeffect.database.entities.BoardDatabase
+import com.ignation.thexeffect.database.entities.DayDatabase
 
 data class BoardWithDays(
-    @Embedded val board: Board,
+    @Embedded val boardDatabase: BoardDatabase,
     @Relation(
         parentColumn = "id",
         entityColumn = "boardId"
     )
-    val days: List<Day>
+    val dayDatabases: List<DayDatabase>
 )

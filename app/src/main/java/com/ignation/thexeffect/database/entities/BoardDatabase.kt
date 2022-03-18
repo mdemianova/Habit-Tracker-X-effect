@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
  * Table for storing created and archived boards.
  */
 @Entity
-data class Board(
+data class BoardDatabase(
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
     val title: String,

@@ -10,7 +10,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.ignation.thexeffect.model.Board
+import com.ignation.thexeffect.models.Board
 import com.ignation.thexeffect.ui.components.BoardComponent
 import com.ignation.thexeffect.ui.theme.TheXEffectTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,12 +27,12 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface {
                     Button(
-                        onClick = {viewModel.createBoard()}
+                        onClick = { viewModel.createBoard() }
 
                     ) {
                         Text("Add Board in DB")
                     }
-                    Greeting()
+                    //Greeting()
                 }
             }
         }
