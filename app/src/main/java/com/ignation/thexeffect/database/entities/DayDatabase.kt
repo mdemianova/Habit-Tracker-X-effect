@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 /**
  * Table for storing successful days.
  */
-@Entity
+@Entity(tableName = "day_database")
 data class DayDatabase(
     @PrimaryKey(autoGenerate = true)
     val id: Long,

@@ -16,5 +16,9 @@ class BoardRepository @Inject constructor(
         }
     }
 
-
+    suspend fun deleteBoard(board: Board) {
+        withContext(Dispatchers.IO) {
+            boardDao.deleteBoardWithInfo(board.asDatabaseModel())
+        }
+    }
 }

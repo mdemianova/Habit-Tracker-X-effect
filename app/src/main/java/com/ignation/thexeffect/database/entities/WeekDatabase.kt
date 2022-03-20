@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 /**
  * Stores user comments for weeks.
  */
-@Entity
+@Entity(tableName = "week_database")
 data class WeekDatabase(
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,

@@ -21,9 +21,26 @@ interface BoardDao {
     @Transaction
     suspend fun insertBoardWithWeeks(board: Board, weeks: List<Week>) {
         val boardId = insertBoard(board.asDatabaseModel())
+        board.id = boardId
         val dbWeeks = weeks.asDatabaseModel(boardId)
         insertWeeks(dbWeeks)
     }
+
+    @Transaction
+    suspend fun deleteBoardWithInfo(boardDatabase: BoardDatabase) {
+        deleteBoard(boardDatabase)
+        deleteWeeks(boardDatabase.id!!)
+        deleteDays(boardDatabase.id)
+    }
+
+    @Delete
+    suspend fun deleteBoard(boardDatabase: BoardDatabase)
+
+    @Query("DELETE FROM week_database WHERE boardId = :id")
+    suspend fun deleteWeeks(id: Long)
+
+    @Query("DELETE FROM day_database WHERE boardId = :id")
+    suspend fun deleteDays(id: Long)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDay(day: DayDatabase)
@@ -32,6 +49,6 @@ interface BoardDao {
     suspend fun deleteDay(day: DayDatabase)
 
     @Transaction
-    @Query("SELECT * FROM boardDatabase WHERE id = :id")
+    @Query("SELECT * FROM board_database WHERE id = :id")
     suspend fun getBoardWithDays(id: Long): List<BoardWithDays>
 }

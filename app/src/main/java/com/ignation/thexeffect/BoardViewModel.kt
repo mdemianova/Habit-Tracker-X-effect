@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 const val TAG = "BoardViewModel"
+
 @HiltViewModel
 class BoardViewModel @Inject constructor(
     private val boardRepository: BoardRepository
@@ -23,7 +24,7 @@ class BoardViewModel @Inject constructor(
     fun createBoard() {
         viewModelScope.launch {
             boardRepository.createBoard(
-                Board("Title 1", true, 11L),
+                Board(title = "Title 1", isActive = true, startDate = 11L),
                 listOf(Week(1), Week(2), Week(3))
             )
         }

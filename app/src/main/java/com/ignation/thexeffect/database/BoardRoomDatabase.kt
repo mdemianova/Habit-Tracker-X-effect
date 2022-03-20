@@ -11,7 +11,7 @@ import com.ignation.thexeffect.database.entities.WeekDatabase
         BoardDatabase::class,
         WeekDatabase::class,
         DayDatabase::class
-    ], version = 3, exportSchema = false
+    ], version = 4, exportSchema = false
 )
 abstract class BoardRoomDatabase : RoomDatabase() {
     abstract fun boardDao(): BoardDao
