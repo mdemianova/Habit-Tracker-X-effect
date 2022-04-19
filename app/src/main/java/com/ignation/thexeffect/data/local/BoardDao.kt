@@ -5,9 +5,10 @@ import com.ignation.thexeffect.data.local.entities.BoardEntity
 import com.ignation.thexeffect.data.local.entities.DayEntity
 import com.ignation.thexeffect.data.local.entities.WeekEntity
 import com.ignation.thexeffect.data.local.entities.relations.BoardWithDays
+import com.ignation.thexeffect.data.mapper.toBoardEntity
+import com.ignation.thexeffect.data.mapper.toWeekEntityList
 import com.ignation.thexeffect.domain.models.Board
 import com.ignation.thexeffect.domain.models.Week
-import com.ignation.thexeffect.domain.models.asDatabaseModel
 
 @Dao
 interface BoardDao {
@@ -20,9 +21,9 @@ interface BoardDao {
 
     @Transaction
     suspend fun insertBoardWithWeeks(board: Board, weeks: List<Week>) {
-        val boardId = insertBoard(board.asDatabaseModel())
+        val boardId = insertBoard(board.toBoardEntity())
         board.id = boardId
-        val dbWeeks = weeks.asDatabaseModel(boardId)
+        val dbWeeks = weeks.toWeekEntityList(boardId)
         insertWeeks(dbWeeks)
     }
 
