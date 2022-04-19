@@ -1,11 +1,10 @@
 package com.ignation.thexeffect
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ignation.thexeffect.models.Board
-import com.ignation.thexeffect.models.Week
-import com.ignation.thexeffect.repository.BoardRepository
+import com.ignation.thexeffect.data.repository.BoardRepository
+import com.ignation.thexeffect.domain.models.Board
+import com.ignation.thexeffect.domain.models.Week
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,8 +16,11 @@ class BoardViewModel @Inject constructor(
     private val boardRepository: BoardRepository
 ) : ViewModel() {
 
-    init {
-        Log.d(TAG, "ViewModel: created")
+    fun getActiveBoards(): List<Board> {
+
+
+
+        return listOf()
     }
 
     fun createBoard() {

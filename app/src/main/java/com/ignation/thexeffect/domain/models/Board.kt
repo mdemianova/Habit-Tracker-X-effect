@@ -1,6 +1,6 @@
-package com.ignation.thexeffect.models
+package com.ignation.thexeffect.domain.models
 
-import com.ignation.thexeffect.database.entities.BoardDatabase
+import com.ignation.thexeffect.data.local.entities.BoardEntity
 
 data class Board(
     var id: Long? = null,
@@ -8,8 +8,8 @@ data class Board(
     val isActive: Boolean,
     val startDate: Long
 ) {
-    fun asDatabaseModel(): BoardDatabase {
-        return BoardDatabase(
+    fun asDatabaseModel(): BoardEntity {
+        return BoardEntity(
             title = this.title,
             isActive = this.isActive,
             startDate = this.startDate

@@ -1,4 +1,4 @@
-package com.ignation.thexeffect.database.entities
+package com.ignation.thexeffect.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
  * Table for storing created and archived boards.
  */
 @Entity(tableName = "board_database")
-data class BoardDatabase(
+data class BoardEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
     val title: String,

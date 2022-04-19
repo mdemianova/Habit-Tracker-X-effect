@@ -2,7 +2,7 @@ package com.ignation.thexeffect.di
 
 import android.content.Context
 import androidx.room.Room
-import com.ignation.thexeffect.database.BoardRoomDatabase
+import com.ignation.thexeffect.data.local.BoardRoomDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

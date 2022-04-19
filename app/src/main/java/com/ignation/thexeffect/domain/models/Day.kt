@@ -1,4 +1,4 @@
-package com.ignation.thexeffect.models
+package com.ignation.thexeffect.domain.models
 
 data class Day(var status: DayStatus = DayStatus.AVAILABLE) {
     fun statusChange() {
