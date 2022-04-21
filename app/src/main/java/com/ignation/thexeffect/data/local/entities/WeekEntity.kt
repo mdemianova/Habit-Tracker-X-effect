@@ -12,5 +12,5 @@ data class WeekEntity(
     val id: Long? = null,
     val boardId: Long,
     val index: Int,
-    val comment: String? = null
+    val comment: String
 )

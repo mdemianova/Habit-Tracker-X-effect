@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "day_database")
 data class DayEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long? = null,
     val boardId: Long,
     val date: Long,
 )

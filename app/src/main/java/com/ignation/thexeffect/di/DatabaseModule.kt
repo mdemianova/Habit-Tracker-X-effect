@@ -2,7 +2,7 @@ package com.ignation.thexeffect.di
 
 import android.content.Context
 import androidx.room.Room
-import com.ignation.thexeffect.data.local.BoardRoomDatabase
+import com.ignation.thexeffect.data.local.HabitDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +21,7 @@ object DatabaseModule {
         app: Context
     ) = Room.databaseBuilder(
         app,
-        BoardRoomDatabase::class.java,
+        HabitDatabase::class.java,
         "board_db"
     )
         .fallbackToDestructiveMigration()
@@ -29,5 +29,5 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideBoardDao(db: BoardRoomDatabase) = db.boardDao()
+    fun provideBoardDao(db: HabitDatabase) = db.habitDao()
 }

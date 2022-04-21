@@ -5,13 +5,9 @@ import com.ignation.thexeffect.data.local.entities.BoardEntity
 import com.ignation.thexeffect.data.local.entities.DayEntity
 import com.ignation.thexeffect.data.local.entities.WeekEntity
 import com.ignation.thexeffect.data.local.entities.relations.BoardWithDays
-import com.ignation.thexeffect.data.mapper.toBoardEntity
-import com.ignation.thexeffect.data.mapper.toWeekEntityList
-import com.ignation.thexeffect.domain.models.Board
-import com.ignation.thexeffect.domain.models.Week
 
 @Dao
-interface BoardDao {
+interface HabitDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBoard(boardEntity: BoardEntity): Long
@@ -20,18 +16,11 @@ interface BoardDao {
     suspend fun insertWeeks(weeks: List<WeekEntity>)
 
     @Transaction
-    suspend fun insertBoardWithWeeks(board: Board, weeks: List<Week>) {
-        val boardId = insertBoard(board.toBoardEntity())
-        board.id = boardId
-        val dbWeeks = weeks.toWeekEntityList(boardId)
-        insertWeeks(dbWeeks)
-    }
-
-    @Transaction
-    suspend fun deleteBoardWithInfo(boardEntity: BoardEntity) {
+    suspend fun deleteHabit(boardEntity: BoardEntity) {
+        val id = boardEntity.id!!
         deleteBoard(boardEntity)
-        deleteWeeks(boardEntity.id!!)
-        deleteDays(boardEntity.id)
+        deleteWeeks(id)
+        deleteDays(id)
     }
 
     @Delete
@@ -46,8 +35,8 @@ interface BoardDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDay(day: DayEntity)
 
-    @Delete
-    suspend fun deleteDay(day: DayEntity)
+    @Update
+    suspend fun updateDay(day: DayEntity)
 
     @Transaction
     @Query("SELECT * FROM board_database WHERE id = :id")

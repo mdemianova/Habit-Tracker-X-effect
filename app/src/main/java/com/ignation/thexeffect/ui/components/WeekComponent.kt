@@ -20,12 +20,8 @@ fun WeekComponent(
                 .padding(end = 5.dp)
                 .align(Alignment.CenterVertically)
         )
-        DayComponent(Day())
-        DayComponent(Day())
-        DayComponent(Day())
-        DayComponent(Day())
-        DayComponent(Day())
-        DayComponent(Day())
-        DayComponent(Day())
+        for (i in 1..7) {
+            DayComponent(day = Day(date = 1L))
+        }
     }
 }
