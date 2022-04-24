@@ -23,7 +23,7 @@ import com.ignation.thexeffect.ui.theme.BoxStandard
 const val DAY_COMPONENT_SIZE = 34
 
 @Composable
-fun DayComponent(
+fun DayItem(
     day: Day,
     modifier: Modifier = Modifier
 ) {

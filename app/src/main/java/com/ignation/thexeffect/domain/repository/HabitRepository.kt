@@ -6,8 +6,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface HabitRepository {
 
-    suspend fun createHabit(board: Board, weeks: List<Week>)
+    suspend fun createHabit(board: Board, weeks: List<Week>?)
 
     suspend fun getActiveHabits(): Flow<List<Board>>
 
+    suspend fun deleteHabit(board: Board)
 }

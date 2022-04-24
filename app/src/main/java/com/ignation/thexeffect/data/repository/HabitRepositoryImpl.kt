@@ -17,14 +17,24 @@ class HabitRepositoryImpl @Inject constructor(
     private val db: HabitDatabase
 ) : HabitRepository {
 
-    override suspend fun createHabit(board: Board, weeks: List<Week>) {
+    private val dao = db.habitDao()
+
+    override suspend fun createHabit(board: Board, weeks: List<Week>?) {
         withContext(Dispatchers.IO) {
-            val id = db.habitDao().insertBoard(board.toBoardEntity())
-            db.habitDao().insertWeeks(weeks.toWeekEntityList(id))
+            val id = dao.insertBoard(board.toBoardEntity())
+            if (weeks != null) {
+                dao.insertWeeks(weeks.toWeekEntityList(id))
+            }
         }
     }
 
     override suspend fun getActiveHabits(): Flow<List<Board>> {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteHabit(board: Board) {
+        withContext(Dispatchers.IO) {
+            db.habitDao().deleteHabit(board.toBoardEntity())
+        }
     }
 }

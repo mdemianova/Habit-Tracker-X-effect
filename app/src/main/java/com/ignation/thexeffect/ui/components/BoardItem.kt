@@ -9,18 +9,18 @@ import androidx.compose.ui.unit.dp
 import com.ignation.thexeffect.domain.models.Board
 
 @Composable
-fun BoardComponent(board: Board) {
+fun BoardItem(
+    board: Board,
+    modifier: Modifier
+) {
     Column {
         Text(
             text = board.title,
-            modifier = Modifier.padding(start = 14.dp)
+            modifier = modifier.padding(start = 14.dp)
         )
-        WeekComponent()
-        WeekComponent()
-        WeekComponent()
-        WeekComponent()
-        WeekComponent()
-        WeekComponent()
-        WeekComponent()
+
+        for (i in 1..7) {
+            WeekItem()
+        }
     }
 }
