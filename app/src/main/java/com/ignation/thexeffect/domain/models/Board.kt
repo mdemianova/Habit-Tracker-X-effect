@@ -5,7 +5,7 @@ data class Board(
     val title: String,
     val isActive: Boolean,
     val startDate: Long,
-    val weeks: List<Week>? = null,
-    val days: List<Day>? = null
+    var weeks: List<Week>? = null,
+    var days: List<Day>? = null
 )
 

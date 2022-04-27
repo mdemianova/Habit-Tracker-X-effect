@@ -12,8 +12,6 @@ class HabitViewModel @Inject constructor(
     private val habitRepositoryImpl: HabitRepositoryImpl
 ) : ViewModel() {
 
-
-
     suspend fun createHabit(board: Board, weeks: List<Week>?) {
         habitRepositoryImpl.createHabit(board, weeks)
     }

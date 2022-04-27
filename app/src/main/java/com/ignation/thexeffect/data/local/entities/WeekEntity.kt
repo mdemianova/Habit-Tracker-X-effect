@@ -12,5 +12,12 @@ data class WeekEntity(
     val id: Long? = null,
     val boardId: Long,
     val index: Int,
-    val comment: String
+    val comment: String,
+    val day_1: Boolean = false,
+    val day_2: Boolean = false,
+    val day_3: Boolean = false,
+    val day_4: Boolean = false,
+    val day_5: Boolean = false,
+    val day_6: Boolean = false,
+    val day_7: Boolean = false,
 )

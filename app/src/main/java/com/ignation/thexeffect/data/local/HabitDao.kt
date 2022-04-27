@@ -2,8 +2,8 @@ package com.ignation.thexeffect.data.local
 
 import androidx.room.*
 import com.ignation.thexeffect.data.local.entities.BoardEntity
-import com.ignation.thexeffect.data.local.entities.DayEntity
 import com.ignation.thexeffect.data.local.entities.WeekEntity
+import com.ignation.thexeffect.data.local.entities.relations.BoardWithWeeksData
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -11,13 +11,11 @@ interface HabitDao {
 
     // Getting
     @Query("SELECT * FROM board_database WHERE isActive = 1")
-    suspend fun getActiveBoards(): Flow<List<BoardEntity>>
+    fun getActiveBoards(): Flow<List<BoardEntity>>
 
-    @Query("SELECT * FROM week_database WHERE boardId = :id")
-    suspend fun getWeeks(id: Long): Flow<List<WeekEntity>>?
-
-    @Query("SELECT * FROM day_database WHERE boardId = :id")
-    suspend fun getDays(id: Long): Flow<List<DayEntity>>?
+    @Transaction
+    @Query("SELECT * FROM board_database WHERE isActive = 1")
+    suspend fun getBoardWithWeeks(): Flow<List<BoardWithWeeksData>>
 
     // Inserting and Updating
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -29,17 +27,17 @@ interface HabitDao {
     @Update
     suspend fun updateWeek(week: WeekEntity)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertDay(day: DayEntity)
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    suspend fun insertDay(day: DayEntity)
 
-    @Update
-    suspend fun updateDay(day: DayEntity)
+//    @Update
+//    suspend fun updateDay(day: DayEntity)
 
     // Deleting
     @Transaction
     suspend fun deleteHabit(boardEntity: BoardEntity) {
         deleteWeeks(boardEntity.id!!)
-        deleteDays(boardEntity.id)
+        //deleteDays(boardEntity.id)
         deleteBoard(boardEntity)
     }
 
@@ -49,6 +47,6 @@ interface HabitDao {
     @Query("DELETE FROM week_database WHERE boardId = :id")
     suspend fun deleteWeeks(id: Long)
 
-    @Query("DELETE FROM day_database WHERE boardId = :id")
-    suspend fun deleteDays(id: Long)
+//    @Query("DELETE FROM day_database WHERE boardId = :id")
+//    suspend fun deleteDays(id: Long)
 }

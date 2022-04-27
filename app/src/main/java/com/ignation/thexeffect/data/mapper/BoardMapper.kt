@@ -20,3 +20,9 @@ fun BoardEntity.toBoard(): Board {
         startDate = this.startDate
     )
 }
+
+fun List<BoardEntity>.toBoardList(): List<Board> {
+    return map {
+        it.toBoard()
+    }
+}

@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Button
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -12,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import com.ignation.thexeffect.domain.models.Board
+import com.ignation.thexeffect.domain.models.Week
 import com.ignation.thexeffect.ui.theme.TheXEffectTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -33,15 +35,26 @@ class MainActivity : ComponentActivity() {
                                 viewModel.createHabit(
                                     Board(
                                         null,
-                                        "First habit",
+                                        "Second habit",
                                         isActive = true,
-                                        startDate = 1L
+                                        startDate = 3L
                                     ),
-                                    weeks = null
+                                    weeks = listOf(
+                                        Week(2, "5 push-ups"),
+                                        Week(4, "15 push-ups")
+                                    )
                                 )
                             }
                         }) {
                             Text("Create")
+                        }
+
+                        Row {
+                            Button(onClick = {
+
+                            }) {
+                                Text("Get")
+                            }
                         }
                     }
                 }
