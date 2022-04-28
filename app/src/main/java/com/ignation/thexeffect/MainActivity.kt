@@ -1,6 +1,7 @@
 package com.ignation.thexeffect
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -25,6 +26,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        viewModel.activeBoards.observe(this@MainActivity) {
+            viewModel.count = it.size
+        }
+
         setContent {
             TheXEffectTheme {
                 // A surface container using the 'background' color from the theme
@@ -35,7 +41,7 @@ class MainActivity : ComponentActivity() {
                                 viewModel.createHabit(
                                     Board(
                                         null,
-                                        "Second habit",
+                                        "Third habit",
                                         isActive = true,
                                         startDate = 3L
                                     ),
@@ -51,11 +57,12 @@ class MainActivity : ComponentActivity() {
 
                         Row {
                             Button(onClick = {
-
+                                Log.d("HabitMainActivity", "${viewModel.count}")
                             }) {
                                 Text("Get")
                             }
                         }
+                        
                     }
                 }
             }
@@ -66,7 +73,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting() {
     Column {
-        //BoardComponent(board = Board(title = "Test board", isActive = true, startDate = 2L))
     }
 }
 

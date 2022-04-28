@@ -1,5 +1,6 @@
 package com.ignation.thexeffect
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.ignation.thexeffect.data.repository.HabitRepositoryImpl
 import com.ignation.thexeffect.domain.models.Board
@@ -12,7 +13,12 @@ class HabitViewModel @Inject constructor(
     private val habitRepositoryImpl: HabitRepositoryImpl
 ) : ViewModel() {
 
+    val activeBoards: LiveData<List<Board>> = habitRepositoryImpl.getActiveHabits()
+
+    var count = 0
+
     suspend fun createHabit(board: Board, weeks: List<Week>?) {
         habitRepositoryImpl.createHabit(board, weeks)
     }
+
 }
