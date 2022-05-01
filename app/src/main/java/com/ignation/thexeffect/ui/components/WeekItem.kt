@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ignation.thexeffect.domain.models.Day
+import java.util.*
 
 @Composable
 fun WeekItem(
@@ -21,7 +22,7 @@ fun WeekItem(
                 .align(Alignment.CenterVertically)
         )
         for (i in 1..7) {
-            DayItem(day = Day(date = 1L))
+            DayItem(day = Day(date = Calendar.getInstance()))
         }
     }
 }

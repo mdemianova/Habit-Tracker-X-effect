@@ -14,10 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import com.ignation.thexeffect.domain.models.Board
+import com.ignation.thexeffect.domain.models.Day
 import com.ignation.thexeffect.domain.models.Week
 import com.ignation.thexeffect.ui.theme.TheXEffectTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.*
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -61,8 +63,16 @@ class MainActivity : ComponentActivity() {
                             }) {
                                 Text("Get")
                             }
+
+                            Button(onClick = {
+                                lifecycleScope.launch {
+                                    viewModel.insertDay(1L, Day(date = Calendar.getInstance()))
+                                }
+                            }) {
+                                Text("Add Day")
+                            }
                         }
-                        
+
                     }
                 }
             }

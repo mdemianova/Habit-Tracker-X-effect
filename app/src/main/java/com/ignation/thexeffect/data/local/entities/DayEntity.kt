@@ -2,6 +2,7 @@ package com.ignation.thexeffect.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
 
 /**
  * Table for storing successful days.
@@ -11,5 +12,5 @@ data class DayEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null,
     val boardId: Long,
-    val date: Long,
+    val date: Calendar,
 )

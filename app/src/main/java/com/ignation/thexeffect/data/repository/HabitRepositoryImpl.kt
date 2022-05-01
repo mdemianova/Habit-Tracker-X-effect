@@ -6,6 +6,7 @@ import androidx.lifecycle.map
 import com.ignation.thexeffect.data.local.HabitDatabase
 import com.ignation.thexeffect.data.mapper.*
 import com.ignation.thexeffect.domain.models.Board
+import com.ignation.thexeffect.domain.models.Day
 import com.ignation.thexeffect.domain.models.Week
 import com.ignation.thexeffect.domain.repository.HabitRepository
 import kotlinx.coroutines.flow.map
@@ -31,11 +32,6 @@ class HabitRepositoryImpl @Inject constructor(
         return boards
     }
 
-//        boards.value!!.forEach {
-//            it.weeks = dao.getBoardWeeks(it.id!!).asLiveData().value?.toWeekList()
-//            it.days = dao.getBoardDays(it.id!!).asLiveData().value?.toDayList()
-//        }
-
     override suspend fun createHabit(board: Board, weeks: List<Week>?) {
         val id = dao.insertBoard(board.toBoardEntity())
         if (weeks != null) {
@@ -45,5 +41,9 @@ class HabitRepositoryImpl @Inject constructor(
 
     override suspend fun deleteHabit(board: Board) {
         db.habitDao().deleteHabit(board.toBoardEntity())
+    }
+
+    override suspend fun insertDay(boardId: Long, day: Day) {
+        db.habitDao().insertDay(day.toDayEntity(boardId))
     }
 }

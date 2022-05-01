@@ -1,8 +1,10 @@
 package com.ignation.thexeffect.domain.models
 
+import java.util.*
+
 data class Day(
     var status: DayStatus = DayStatus.AVAILABLE,
-    val date: Long
+    val date: Calendar
 )
 
 fun Day.statusChange() {
