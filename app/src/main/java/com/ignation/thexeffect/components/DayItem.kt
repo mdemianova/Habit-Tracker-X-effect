@@ -1,4 +1,4 @@
-package com.ignation.thexeffect.ui.components
+package com.ignation.thexeffect.components
 
 import android.util.Log
 import androidx.compose.foundation.Canvas

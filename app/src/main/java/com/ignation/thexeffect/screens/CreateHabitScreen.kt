@@ -1,6 +1,7 @@
 package com.ignation.thexeffect.screens
 
 import android.app.DatePickerDialog
+import android.util.Log
 import android.widget.DatePicker
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -27,9 +28,28 @@ import com.ignation.thexeffect.R
 import java.util.*
 
 @Composable
-fun CreateHabitScreen() {
+fun CreateHabitScreen(content: @Composable () -> Unit) {
+    Scaffold(
+        topBar = {
+            TopAppBar {
+                Text(text = "Create a card")
+            }
+        }
+    ) {
+        content()
+    }
+}
+
+
+@Composable
+fun CreateHabitContent() {
+
     val title = remember {
         mutableStateOf("")
+    }
+
+    val startDate = remember {
+        mutableStateOf(Calendar.getInstance())
     }
 
     Surface(
@@ -42,24 +62,26 @@ fun CreateHabitScreen() {
         border = BorderStroke(1.dp, Color.LightGray)
     ) {
         Column {
-            SetTitle(stateValue = title)
-            CreateDatePicker()
+            SetTitle(titleState = title)
+            CreateDatePicker() { year, month, day ->
+                startDate.value.set(year, month, day)
+                Log.d("TAG", "CreateHabitScreen: ${startDate.value.timeInMillis}")
+            }
         }
-
     }
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SetTitle(
-    stateValue: MutableState<String>
+    titleState: MutableState<String>
 ) {
     val controller = LocalSoftwareKeyboardController.current
     val focus = LocalFocusManager.current
     Column(horizontalAlignment = Alignment.Start) {
         OutlinedTextField(
-            value = stateValue.value,
-            onValueChange = { stateValue.value = it },
+            value = titleState.value,
+            onValueChange = { titleState.value = it },
             label = { Text("Habit title") },
             placeholder = { Text("Make it as clear as possible") },
             singleLine = true,
@@ -77,21 +99,15 @@ fun SetTitle(
 }
 
 @Composable
-fun CreateDatePicker() {
-
+fun CreateDatePicker(
+    calendarSet: (Int, Int, Int) -> Unit
+) {
     val context = LocalContext.current
 
-    val myYear: Int
-    val myMonth: Int
-    val myDay: Int
-
     val calendar = Calendar.getInstance()
-
-    myYear = calendar.get(Calendar.YEAR)
-    myMonth = calendar.get(Calendar.MONTH)
-    myDay = calendar.get(Calendar.DAY_OF_MONTH)
-
-    calendar.time = Date()
+    val myYear = calendar.get(Calendar.YEAR)
+    val myMonth = calendar.get(Calendar.MONTH)
+    val myDay = calendar.get(Calendar.DAY_OF_MONTH)
 
     val myDate = remember {
         mutableStateOf("")
@@ -101,6 +117,7 @@ fun CreateDatePicker() {
         context,
         { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
             myDate.value = "$dayOfMonth.${month + 1}.$year"
+            calendarSet(year, month, dayOfMonth)
         }, myYear, myMonth, myDay
     )
 
@@ -116,19 +133,29 @@ fun CreateDatePicker() {
                         painter = painterResource(id = R.drawable.ic_baseline_calendar_month_24),
                         contentDescription = "Calendar image"
                     )
-                    Text(text = "Set date", color = Color.White)
+
+                    Text(text = "Choose date", color = Color.White)
                 }
             }
-
-            Text(
-                text = "Start Date: ${myDate.value}"
-            )
+            if (myDate.value.isNotEmpty()) {
+                Text(
+                    text = "Starting at: ${myDate.value}",
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                )
+            }
         }
     }
+}
+
+@Composable
+fun AddWeekDescription() {
+
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewCreateHabit() {
-    CreateHabitScreen()
+    CreateHabitScreen {
+        CreateHabitContent()
+    }
 }

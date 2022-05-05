@@ -1,4 +1,4 @@
-package com.ignation.thexeffect.ui.components
+package com.ignation.thexeffect.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
