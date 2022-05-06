@@ -5,10 +5,14 @@ import android.util.Log
 import android.widget.DatePicker
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -36,7 +40,16 @@ fun CreateHabitScreen(content: @Composable () -> Unit) {
             }
         }
     ) {
-        content()
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .padding(8.dp),
+            color = MaterialTheme.colors.background
+        ) {
+            content()
+        }
+
     }
 }
 
@@ -54,19 +67,18 @@ fun CreateHabitContent() {
 
     Surface(
         modifier = Modifier
-            .padding(10.dp)
             .fillMaxWidth()
             .fillMaxHeight(),
         shape = RoundedCornerShape(8.dp),
-        color = Color(0xFFfdfdf5),
         border = BorderStroke(1.dp, Color.LightGray)
     ) {
-        Column {
+        Column(modifier = Modifier.padding(10.dp)) {
             SetTitle(titleState = title)
             CreateDatePicker() { year, month, day ->
                 startDate.value.set(year, month, day)
                 Log.d("TAG", "CreateHabitScreen: ${startDate.value.timeInMillis}")
             }
+            WeekDescription()
         }
     }
 }
@@ -78,10 +90,11 @@ fun SetTitle(
 ) {
     val controller = LocalSoftwareKeyboardController.current
     val focus = LocalFocusManager.current
-    Column(horizontalAlignment = Alignment.Start) {
+    Column() {
         OutlinedTextField(
             value = titleState.value,
             onValueChange = { titleState.value = it },
+            modifier = Modifier.fillMaxWidth(),
             label = { Text("Habit title") },
             placeholder = { Text("Make it as clear as possible") },
             singleLine = true,
@@ -121,7 +134,9 @@ fun CreateDatePicker(
         }, myYear, myMonth, myDay
     )
 
-    Column {
+    Column(
+        modifier = Modifier.padding(vertical = 12.dp)
+    ) {
         Text(text = "When do you want to start?")
 
         Row {
@@ -148,8 +163,63 @@ fun CreateDatePicker(
 }
 
 @Composable
-fun AddWeekDescription() {
+fun WeekDescription() {
+    val weekFieldsCountState = remember {
+        mutableStateOf(1)
+    }
 
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+    ) {
+
+        Text(text = "You can add description for each week")
+        for (i in 1..weekFieldsCountState.value) {
+            Row(modifier = Modifier
+                .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                InputWeekField(i)
+                IconButton(
+                    onClick = {
+                        if (weekFieldsCountState.value > 1) {
+                            weekFieldsCountState.value -= 1
+                        } else {
+                            weekFieldsCountState.value = 0
+                        }
+                    },
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                ) {
+                    Icon(Icons.Rounded.Delete, "Delete")
+                }
+            }
+        }
+
+        Button(
+            onClick = {
+                if (weekFieldsCountState.value < 7) {
+                    weekFieldsCountState.value += 1
+                } else {
+                    weekFieldsCountState.value = 7
+                }
+            },
+            modifier = Modifier
+                .padding(end = 16.dp)
+                .align(Alignment.End)
+        ) {
+            Text(text = "Add week")
+        }
+    }
+}
+
+@Composable
+fun InputWeekField(weekNumber: Int) {
+    OutlinedTextField(
+        value = "",
+        onValueChange = {},
+        label = { Text(text = "Week №$weekNumber") }
+    )
 }
 
 @Preview(showBackground = true)
