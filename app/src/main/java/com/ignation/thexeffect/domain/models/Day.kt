@@ -1,10 +1,10 @@
 package com.ignation.thexeffect.domain.models
 
-import java.util.*
+import kotlinx.datetime.LocalDate
 
 data class Day(
     var status: DayStatus = DayStatus.AVAILABLE,
-    val date: Calendar
+    val date: LocalDate
 )
 
 fun Day.statusChange() {

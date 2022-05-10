@@ -1,14 +1,17 @@
 package com.ignation.thexeffect.data.local.converters
 
 import androidx.room.TypeConverter
-import java.util.*
+import kotlinx.datetime.LocalDate
 
 class Converters {
     @TypeConverter
-    fun calendarToDate(calendar: Calendar): Long = calendar.timeInMillis
+    fun localDateToString(localDate: LocalDate): String {
+        return localDate.toString()
+    }
 
     @TypeConverter
-    fun dateToCalendar(date: Long): Calendar {
-        return Calendar.getInstance().apply { timeInMillis = date }
+    fun stringToLocalDate(string: String): LocalDate {
+        val (y, m, d) = string.split("-").map { it.toInt() }
+        return LocalDate(y, m, d)
     }
 }

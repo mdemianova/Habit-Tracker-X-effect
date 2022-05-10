@@ -73,6 +73,7 @@ fun CreateHabitContent() {
         border = BorderStroke(1.dp, Color.LightGray)
     ) {
         Column(modifier = Modifier.padding(10.dp)) {
+            ChooseType()
             SetTitle(titleState = title)
             CreateDatePicker() { year, month, day ->
                 startDate.value.set(year, month, day)
@@ -163,6 +164,17 @@ fun CreateDatePicker(
 }
 
 @Composable
+fun ChooseType() {
+    Row {
+        RadioButton(selected = true, onClick = { /*TODO*/ })
+        Text(text = "Create Habit")
+
+        RadioButton(selected = false, onClick = { /*TODO*/ })
+        Text(text = "Break Habit")
+    }
+}
+
+@Composable
 fun WeekDescription() {
     val weekFieldsCountState = remember {
         mutableStateOf(1)
@@ -170,14 +182,12 @@ fun WeekDescription() {
 
     Column(
         modifier = Modifier
+            .fillMaxWidth()
             .verticalScroll(rememberScrollState())
     ) {
-
         Text(text = "You can add description for each week")
         for (i in 1..weekFieldsCountState.value) {
-            Row(modifier = Modifier
-                .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround
+            Row(modifier = Modifier.fillMaxWidth()
             ) {
                 InputWeekField(i)
                 IconButton(
@@ -205,7 +215,6 @@ fun WeekDescription() {
                 }
             },
             modifier = Modifier
-                .padding(end = 16.dp)
                 .align(Alignment.End)
         ) {
             Text(text = "Add week")

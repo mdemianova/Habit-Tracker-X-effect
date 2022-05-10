@@ -7,9 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ignation.thexeffect.domain.models.Board
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.plus
 
 @Composable
-fun BoardItem(
+fun BoardFull(
     board: Board,
     modifier: Modifier
 ) {
@@ -18,9 +20,10 @@ fun BoardItem(
             text = board.title,
             modifier = modifier.padding(start = 14.dp)
         )
-
+        var startDate = board.startDate
         for (i in 1..7) {
-            WeekItem()
+            WeekItem(startDate)
+            startDate = startDate.plus(7, DateTimeUnit.DAY)
         }
     }
 }
