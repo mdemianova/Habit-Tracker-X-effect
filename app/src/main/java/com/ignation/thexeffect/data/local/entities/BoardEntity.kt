@@ -13,5 +13,6 @@ data class BoardEntity(
     val id: Long? = null,
     val title: String,
     val isActive: Boolean,
-    val startDate: LocalDate
+    val startDate: LocalDate,
+    val isCreateHabit: Boolean
 )

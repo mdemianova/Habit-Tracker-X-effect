@@ -50,7 +50,8 @@ fun getCurrentWeekIndex(board: Board): Int {
 val testBoard = Board(
     title = "Stop playing video games",
     isActive = true,
-    startDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+    startDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date,
+    isCreateHabit = true
 )
 
 @Preview

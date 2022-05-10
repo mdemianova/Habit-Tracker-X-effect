@@ -8,7 +8,8 @@ fun Board.toBoardEntity(): BoardEntity {
         id = this.id,
         title = this.title,
         isActive = this.isActive,
-        startDate = this.startDate
+        startDate = this.startDate,
+        isCreateHabit = this.isCreateHabit
     )
 }
 
@@ -17,7 +18,8 @@ fun BoardEntity.toBoard(): Board {
         id = this.id,
         title = this.title,
         isActive = this.isActive,
-        startDate = this.startDate
+        startDate = this.startDate,
+        isCreateHabit = this.isCreateHabit
     )
 }
 
