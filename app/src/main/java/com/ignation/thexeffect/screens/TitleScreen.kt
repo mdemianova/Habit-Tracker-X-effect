@@ -6,6 +6,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ignation.thexeffect.HabitViewModel
+import com.ignation.thexeffect.components.BoardSmall
 import com.ignation.thexeffect.domain.models.Board
 
 @Composable
@@ -24,7 +25,7 @@ fun TitleContent(
 ) {
     LazyColumn {
         items(items = boards) {
-
+            BoardSmall(board = it)
         }
     }
 }

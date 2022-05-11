@@ -33,6 +33,7 @@ import java.util.*
 
 @Composable
 fun CreateHabitScreen(content: @Composable () -> Unit) {
+
     Scaffold(
         topBar = {
             TopAppBar {
@@ -49,7 +50,6 @@ fun CreateHabitScreen(content: @Composable () -> Unit) {
         ) {
             content()
         }
-
     }
 }
 
@@ -65,6 +65,10 @@ fun CreateHabitContent() {
         mutableStateOf(Calendar.getInstance())
     }
 
+    val typeState = remember {
+        mutableStateOf(true)
+    }
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -73,13 +77,15 @@ fun CreateHabitContent() {
         border = BorderStroke(1.dp, Color.LightGray)
     ) {
         Column(modifier = Modifier.padding(10.dp)) {
-            ChooseType()
+            ChooseType(typeState)
             SetTitle(titleState = title)
             CreateDatePicker() { year, month, day ->
                 startDate.value.set(year, month, day)
                 Log.d("TAG", "CreateHabitScreen: ${startDate.value.timeInMillis}")
             }
             WeekDescription()
+            Spacer(modifier = Modifier.height(30.dp))
+            CreateHabitControls()
         }
     }
 }
@@ -164,12 +170,15 @@ fun CreateDatePicker(
 }
 
 @Composable
-fun ChooseType() {
-    Row {
-        RadioButton(selected = true, onClick = { /*TODO*/ })
+fun ChooseType(typeState: MutableState<Boolean>) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        RadioButton(selected = true, onClick = { typeState.value = true })
         Text(text = "Create Habit")
+        Spacer(modifier = Modifier.width(10.dp))
 
-        RadioButton(selected = false, onClick = { /*TODO*/ })
+        RadioButton(selected = false, onClick = { typeState.value = false })
         Text(text = "Break Habit")
     }
 }
@@ -187,7 +196,8 @@ fun WeekDescription() {
     ) {
         Text(text = "You can add description for each week")
         for (i in 1..weekFieldsCountState.value) {
-            Row(modifier = Modifier.fillMaxWidth()
+            Row(
+                modifier = Modifier.fillMaxWidth()
             ) {
                 InputWeekField(i)
                 IconButton(
@@ -218,6 +228,22 @@ fun WeekDescription() {
                 .align(Alignment.End)
         ) {
             Text(text = "Add week")
+        }
+    }
+}
+
+@Composable
+fun CreateHabitControls() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Button(onClick = { /*TODO*/ }) {
+            Text(text = "Cancel")
+        }
+        Button(onClick = {})
+        {
+            Text(text = "Create")
         }
     }
 }

@@ -13,16 +13,15 @@ import kotlinx.datetime.plus
 @Composable
 fun BoardFull(
     board: Board,
-    modifier: Modifier
 ) {
     Column {
         Text(
             text = board.title,
-            modifier = modifier.padding(start = 14.dp)
+            modifier = Modifier.padding(start = 14.dp)
         )
         var startDate = board.startDate
         for (i in 1..7) {
-            WeekItem(startDate)
+            WeekItem(i, startDate)
             startDate = startDate.plus(7, DateTimeUnit.DAY)
         }
     }

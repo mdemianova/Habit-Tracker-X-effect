@@ -15,11 +15,12 @@ import kotlinx.datetime.plus
 
 @Composable
 fun WeekItem(
+    weekIndex: Int,
     firstDayOfWeek: LocalDate
 ) {
     Row {
         Text(
-            text = "1",
+            text = "$weekIndex",
             modifier = Modifier
                 .padding(end = 5.dp)
                 .align(Alignment.CenterVertically)
@@ -34,5 +35,5 @@ fun WeekItem(
 @Preview(showBackground = true)
 @Composable
 fun PreviewWeek() {
-    WeekItem(firstDayOfWeek = LocalDate(2022, 5, 7))
+    WeekItem(weekIndex = 3, firstDayOfWeek = LocalDate(2022, 5, 7))
 }
