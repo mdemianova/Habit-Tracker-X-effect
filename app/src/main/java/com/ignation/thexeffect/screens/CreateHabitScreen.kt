@@ -26,13 +26,14 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.ignation.thexeffect.R
+import com.ignation.thexeffect.navigation.HabitScreens
 import java.util.*
 
 @Composable
-fun CreateHabitScreen(content: @Composable () -> Unit) {
+fun CreateHabitScreen(navController: NavController) {
 
     Scaffold(
         topBar = {
@@ -48,14 +49,14 @@ fun CreateHabitScreen(content: @Composable () -> Unit) {
                 .padding(8.dp),
             color = MaterialTheme.colors.background
         ) {
-            content()
+            CreateHabitContent(navController)
         }
     }
 }
 
 
 @Composable
-fun CreateHabitContent() {
+fun CreateHabitContent(navController: NavController) {
 
     val title = remember {
         mutableStateOf("")
@@ -85,7 +86,7 @@ fun CreateHabitContent() {
             }
             WeekDescription()
             Spacer(modifier = Modifier.height(30.dp))
-            CreateHabitControls()
+            CreateHabitControls(navController)
         }
     }
 }
@@ -233,15 +234,20 @@ fun WeekDescription() {
 }
 
 @Composable
-fun CreateHabitControls() {
+fun CreateHabitControls(navController: NavController) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = {
+            navController.navigate(route = HabitScreens.TitleScreen.name)
+        }) {
             Text(text = "Cancel")
         }
-        Button(onClick = {})
+        Button(onClick = {
+            // TODO("Add save to DB action")
+            navController.navigate(route = HabitScreens.TitleScreen.name)
+        })
         {
             Text(text = "Create")
         }
@@ -255,12 +261,4 @@ fun InputWeekField(weekNumber: Int) {
         onValueChange = {},
         label = { Text(text = "Week №$weekNumber") }
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewCreateHabit() {
-    CreateHabitScreen {
-        CreateHabitContent()
-    }
 }

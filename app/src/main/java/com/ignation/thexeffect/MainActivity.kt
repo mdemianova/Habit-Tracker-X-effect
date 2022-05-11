@@ -7,16 +7,9 @@ import androidx.activity.viewModels
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.ignation.thexeffect.components.BoardSmall
-import com.ignation.thexeffect.domain.models.Board
-import com.ignation.thexeffect.domain.models.Day
-import com.ignation.thexeffect.domain.models.DayStatus
-import com.ignation.thexeffect.domain.models.Week
-import com.ignation.thexeffect.screens.CreateHabitContent
-import com.ignation.thexeffect.screens.CreateHabitScreen
+import com.ignation.thexeffect.navigation.HabitNavigation
 import com.ignation.thexeffect.ui.theme.TheXEffectTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.datetime.LocalDate
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -30,9 +23,8 @@ class MainActivity : ComponentActivity() {
             TheXEffectTheme {
                 // A surface container using the 'background' color from the theme
                 Surface {
-//                    CreateHabitScreen {
-//                        CreateHabitContent()
-//                    }
+                    HabitNavigation()
+                    /*
                     BoardSmall(board = Board(
                         title = "Become a superhero",
                         isActive = true,
@@ -45,7 +37,7 @@ class MainActivity : ComponentActivity() {
                         days = listOf(
                             Day(DayStatus.COMPLETED, LocalDate(2022, 5, 9))
                         )
-                    ))
+                    )) */
                 }
             }
         }
@@ -56,8 +48,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     TheXEffectTheme {
-        CreateHabitScreen {
-            CreateHabitContent()
-        }
+        HabitNavigation()
     }
 }
