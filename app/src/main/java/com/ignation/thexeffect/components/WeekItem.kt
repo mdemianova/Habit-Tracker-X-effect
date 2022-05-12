@@ -16,7 +16,8 @@ import kotlinx.datetime.plus
 @Composable
 fun WeekItem(
     weekIndex: Int,
-    firstDayOfWeek: LocalDate
+    firstDayOfWeek: LocalDate,
+    days: List<Day>?
 ) {
     Row {
         Text(
@@ -26,8 +27,21 @@ fun WeekItem(
                 .align(Alignment.CenterVertically)
         )
         val date = firstDayOfWeek
-        for (i in 0..6) {
-            DayItem(day = Day(date = date.plus(i, DateTimeUnit.DAY)))
+
+        if (days == null) {
+            for (i in 0..6) {
+                DayItem(day = Day(date = date.plus(i, DateTimeUnit.DAY)))
+            }
+        } else {
+            for (i in 0..6) {
+                val filteredList = days.filter { it.date == date.plus(i, DateTimeUnit.DAY) }
+                if (filteredList.size == 1) {
+                    val day = filteredList[0]
+                    DayItem(day = day)
+                } else {
+                    DayItem(day = Day(date = date.plus(i, DateTimeUnit.DAY)))
+                }
+            }
         }
     }
 }
@@ -35,5 +49,5 @@ fun WeekItem(
 @Preview(showBackground = true)
 @Composable
 fun PreviewWeek() {
-    WeekItem(weekIndex = 3, firstDayOfWeek = LocalDate(2022, 5, 7))
+    WeekItem(weekIndex = 3, firstDayOfWeek = LocalDate(2022, 5, 7), null)
 }

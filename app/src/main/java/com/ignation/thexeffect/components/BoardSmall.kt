@@ -12,12 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ignation.thexeffect.domain.models.Board
-import com.ignation.thexeffect.domain.models.Day
-import com.ignation.thexeffect.domain.models.DayStatus
-import com.ignation.thexeffect.domain.models.Week
-import kotlinx.datetime.*
-import kotlin.math.ceil
+import com.ignation.thexeffect.domain.models.*
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.plus
 
 @Composable
 fun BoardSmall(
@@ -46,7 +44,7 @@ fun BoardSmall(
             Surface(
                 modifier = Modifier.padding(start = 6.dp)
             ) {
-                WeekItem(weekIndex, firstDayOfWeek)
+                WeekItem(weekIndex, firstDayOfWeek, board.days)
             }
 
             Surface(
@@ -64,27 +62,6 @@ fun BoardSmall(
     }
 }
 
-fun getCurrentWeekFromBoard(board: Board, currentWeekIndex: Int): Week? {
-
-    return if (board.weeks.isNullOrEmpty()) {
-        null
-    } else {
-        for (item in board.weeks!!) {
-            if (item.index == currentWeekIndex) return item
-        }
-        null
-    }
-}
-
-
-fun getCurrentWeekIndex(board: Board): Int {
-    val currentDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-    val startDate = board.startDate
-    val indexOfCurrentDayInBoard = startDate.daysUntil(currentDate) + 1
-
-    return ceil(indexOfCurrentDayInBoard / 7f).toInt()
-}
-
 val testBoard = Board(
     title = "Become a superhero",
     isActive = true,
@@ -95,7 +72,7 @@ val testBoard = Board(
         Week(3, "This is week 3")
     ),
     days = listOf(
-        Day(DayStatus.COMPLETED, LocalDate(2022, 5, 9))
+        Day(DayStatus.COMPLETED, LocalDate(2022, 5, 10))
     )
 )
 

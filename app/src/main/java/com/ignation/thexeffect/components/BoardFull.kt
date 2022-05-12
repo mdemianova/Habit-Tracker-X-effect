@@ -21,7 +21,7 @@ fun BoardFull(
         )
         var startDate = board.startDate
         for (i in 1..7) {
-            WeekItem(i, startDate)
+            WeekItem(i, startDate, board.days)
             startDate = startDate.plus(7, DateTimeUnit.DAY)
         }
     }

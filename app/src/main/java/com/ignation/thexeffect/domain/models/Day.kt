@@ -1,9 +1,6 @@
 package com.ignation.thexeffect.domain.models
 
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 
 data class Day(
     var status: DayStatus = DayStatus.EMPTY,
@@ -12,7 +9,7 @@ data class Day(
 
 fun Day.setActualStatus() {
     if (status == DayStatus.EMPTY) {
-        val currentDay = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+        val currentDay = CurrentDate.now
         when {
             date.compareTo(currentDay) == 0 -> status = DayStatus.AVAILABLE
             date.compareTo(currentDay) >= 1 -> status = DayStatus.UNAVAILABLE
