@@ -1,6 +1,8 @@
 package com.ignation.thexeffect.components
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CornerSize
@@ -19,7 +21,8 @@ import kotlinx.datetime.plus
 
 @Composable
 fun BoardSmall(
-    board: Board
+    board: Board,
+    onItemClick: (Board) -> Unit
 ) {
     val weekIndex = getCurrentWeekIndex(board)
     val currentWeek = getCurrentWeekFromBoard(board, weekIndex)
@@ -32,6 +35,9 @@ fun BoardSmall(
         Column(
         ) {
             Surface(
+                modifier = Modifier.clickable {
+                    onItemClick(board)
+                },
                 color = Color.Red,
                 border = BorderStroke(2.dp, Color.DarkGray)
             ) {
@@ -79,5 +85,5 @@ val testBoard = Board(
 @Preview(showBackground = true)
 @Composable
 fun PreviewBoardSmall() {
-    BoardSmall(testBoard)
+    BoardSmall(testBoard) { Log.d("BoardSmall", "PreviewBoardSmall: clicked")}
 }

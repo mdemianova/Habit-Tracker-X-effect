@@ -29,7 +29,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ignation.thexeffect.R
-import com.ignation.thexeffect.navigation.HabitScreens
 import java.util.*
 
 @Composable
@@ -240,13 +239,13 @@ fun CreateHabitControls(navController: NavController) {
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         Button(onClick = {
-            navController.navigate(route = HabitScreens.TitleScreen.name)
+            navController.popBackStack()
         }) {
             Text(text = "Cancel")
         }
         Button(onClick = {
             // TODO("Add save to DB action")
-            navController.navigate(route = HabitScreens.TitleScreen.name)
+            navController.popBackStack()
         })
         {
             Text(text = "Create")

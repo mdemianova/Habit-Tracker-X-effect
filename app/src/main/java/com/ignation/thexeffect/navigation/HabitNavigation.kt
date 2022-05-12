@@ -1,10 +1,13 @@
 package com.ignation.thexeffect.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.ignation.thexeffect.screens.CreateHabitScreen
+import com.ignation.thexeffect.screens.DetailsScreen
 import com.ignation.thexeffect.screens.TitleScreen
 
 @Composable
@@ -20,6 +23,13 @@ fun HabitNavigation() {
 
         composable(HabitScreens.CreateHabitScreen.name) {
             CreateHabitScreen(navController)
+        }
+
+        composable(HabitScreens.DetailsScreen.name+"/{card}",
+        arguments = listOf(navArgument(name = "cardId") {type = NavType.LongType})
+        ) { backStackEntry ->
+            DetailsScreen(navController = navController,
+            backStackEntry.arguments?.getLong("cardId"))
         }
     }
 }
