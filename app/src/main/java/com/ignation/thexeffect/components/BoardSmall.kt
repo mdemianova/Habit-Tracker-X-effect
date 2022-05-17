@@ -5,7 +5,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -29,7 +28,8 @@ fun BoardSmall(
     val firstDayOfWeek = board.startDate.plus((weekIndex - 1) * 7, DateTimeUnit.DAY)
 
     Surface(
-        shape = RoundedCornerShape(CornerSize(10.dp)),
+        //modifier = Modifier.clip()
+        shape = RoundedCornerShape(topEnd = 12.dp, topStart = 12.dp),
         border = BorderStroke(2.dp, Color.DarkGray)
     ) {
         Column(

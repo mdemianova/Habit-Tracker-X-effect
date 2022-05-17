@@ -51,4 +51,7 @@ interface HabitDao {
 
     @Query("DELETE FROM day_database WHERE boardId = :id")
     suspend fun deleteDays(id: Long)
+
+    @Delete
+    suspend fun deleteDay(day: DayEntity)
 }

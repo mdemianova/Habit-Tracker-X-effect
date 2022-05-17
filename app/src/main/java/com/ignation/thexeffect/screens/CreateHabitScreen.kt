@@ -1,9 +1,9 @@
 package com.ignation.thexeffect.screens
 
 import android.app.DatePickerDialog
-import android.util.Log
 import android.widget.DatePicker
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,6 +12,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -28,17 +29,30 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.ignation.thexeffect.HabitViewModel
 import com.ignation.thexeffect.R
+import com.ignation.thexeffect.domain.models.Board
+import com.ignation.thexeffect.domain.models.Week
+import kotlinx.datetime.LocalDate
 import java.util.*
 
 @Composable
-fun CreateHabitScreen(navController: NavController) {
+fun CreateHabitScreen(navController: NavController, habitViewModel: HabitViewModel) {
 
     Scaffold(
         topBar = {
-            TopAppBar {
-                Text(text = "Create a card")
-            }
+            TopAppBar(
+                title = { Text(text = "Create a card") },
+                navigationIcon = {
+                    Icon(
+                        Icons.Default.ArrowBack,
+                        contentDescription = "Back",
+                        modifier = Modifier.clickable {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+            )
         }
     ) {
         Surface(
@@ -48,14 +62,14 @@ fun CreateHabitScreen(navController: NavController) {
                 .padding(8.dp),
             color = MaterialTheme.colors.background
         ) {
-            CreateHabitContent(navController)
+            CreateHabitContent(navController, habitViewModel)
         }
     }
 }
 
 
 @Composable
-fun CreateHabitContent(navController: NavController) {
+fun CreateHabitContent(navController: NavController, habitViewModel: HabitViewModel) {
 
     val title = remember {
         mutableStateOf("")
@@ -67,6 +81,10 @@ fun CreateHabitContent(navController: NavController) {
 
     val typeState = remember {
         mutableStateOf(true)
+    }
+
+    val weeksState = remember {
+        mutableListOf(emptyList<Week>())
     }
 
     Surface(
@@ -81,11 +99,42 @@ fun CreateHabitContent(navController: NavController) {
             SetTitle(titleState = title)
             CreateDatePicker() { year, month, day ->
                 startDate.value.set(year, month, day)
-                Log.d("TAG", "CreateHabitScreen: ${startDate.value.timeInMillis}")
             }
             WeekDescription()
             Spacer(modifier = Modifier.height(30.dp))
-            CreateHabitControls(navController)
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Button(onClick = {
+                    navController.popBackStack()
+                }) {
+                    Text(text = "Cancel")
+                }
+                Button(onClick = {
+                    if (title.value.isNotEmpty()) {
+                        // TODO: create habit
+                        habitViewModel.createHabit(
+                            Board(
+                                title = title.value,
+                                isActive = true,
+                                startDate = LocalDate(
+                                    year = startDate.value.get(Calendar.YEAR),
+                                    monthNumber = startDate.value.get(Calendar.MONTH) + 1,
+                                    dayOfMonth = startDate.value.get(Calendar.DAY_OF_MONTH)
+                                ),
+                                isCreateHabit = typeState.value,
+                            ),
+                            listOf()
+                        )
+                        navController.popBackStack()
+                    }
+                })
+                {
+                    Text(text = "Create")
+                }
+            }
         }
     }
 }
@@ -228,27 +277,6 @@ fun WeekDescription() {
                 .align(Alignment.End)
         ) {
             Text(text = "Add week")
-        }
-    }
-}
-
-@Composable
-fun CreateHabitControls(navController: NavController) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        Button(onClick = {
-            navController.popBackStack()
-        }) {
-            Text(text = "Cancel")
-        }
-        Button(onClick = {
-            // TODO("Add save to DB action")
-            navController.popBackStack()
-        })
-        {
-            Text(text = "Create")
         }
     }
 }
