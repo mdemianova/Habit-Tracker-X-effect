@@ -21,10 +21,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -83,9 +85,7 @@ fun CreateHabitContent(navController: NavController, habitViewModel: HabitViewMo
         mutableStateOf(true)
     }
 
-    val weeksState = remember {
-        mutableListOf(emptyList<Week>())
-    }
+    val weeksList = mutableMapOf<Int, Week>()
 
     Surface(
         modifier = Modifier
@@ -94,13 +94,17 @@ fun CreateHabitContent(navController: NavController, habitViewModel: HabitViewMo
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(1.dp, Color.LightGray)
     ) {
-        Column(modifier = Modifier.padding(10.dp)) {
+        Column(
+            modifier = Modifier
+                .padding(10.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
             ChooseType(typeState)
             SetTitle(titleState = title)
             CreateDatePicker() { year, month, day ->
                 startDate.value.set(year, month, day)
             }
-            WeekDescription()
+            WeekDescription(weeksList)
             Spacer(modifier = Modifier.height(30.dp))
 
             Row(
@@ -116,7 +120,7 @@ fun CreateHabitContent(navController: NavController, habitViewModel: HabitViewMo
                     if (title.value.isNotEmpty()) {
                         // TODO: create habit
                         habitViewModel.createHabit(
-                            Board(
+                            board = Board(
                                 title = title.value,
                                 isActive = true,
                                 startDate = LocalDate(
@@ -126,7 +130,7 @@ fun CreateHabitContent(navController: NavController, habitViewModel: HabitViewMo
                                 ),
                                 isCreateHabit = typeState.value,
                             ),
-                            listOf()
+                            weeks = weeksList.values.toList()
                         )
                         navController.popBackStack()
                     }
@@ -232,26 +236,31 @@ fun ChooseType(typeState: MutableState<Boolean>) {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun WeekDescription() {
+fun WeekDescription(weeksList: MutableMap<Int, Week>) {
     val weekFieldsCountState = remember {
         mutableStateOf(1)
     }
 
+    val controller = LocalSoftwareKeyboardController.current
+    val focus = LocalFocusManager.current
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
+
     ) {
         Text(text = "You can add description for each week")
         for (i in 1..weekFieldsCountState.value) {
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                InputWeekField(i)
+                InputWeekField(i, weeksList, controller, focus)
                 IconButton(
                     onClick = {
                         if (weekFieldsCountState.value > 1) {
+                            weeksList.remove(i)
                             weekFieldsCountState.value -= 1
                         } else {
                             weekFieldsCountState.value = 0
@@ -281,11 +290,34 @@ fun WeekDescription() {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun InputWeekField(weekNumber: Int) {
+fun InputWeekField(
+    weekNumber: Int,
+    weeksList: MutableMap<Int, Week>,
+    controller: SoftwareKeyboardController?,
+    focus: FocusManager
+) {
+    val text = remember {
+        mutableStateOf("")
+    }
+
     OutlinedTextField(
-        value = "",
-        onValueChange = {},
-        label = { Text(text = "Week №$weekNumber") }
+        value = text.value,
+        onValueChange = {
+            text.value = it
+            weeksList[weekNumber] = Week(weekNumber, text.value)
+                        },
+        label = { Text(text = "Week №$weekNumber") },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                focus.clearFocus()
+                controller?.hide()
+            }
+        )
     )
 }

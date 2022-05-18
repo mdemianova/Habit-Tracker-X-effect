@@ -13,7 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ignation.thexeffect.domain.models.*
+import com.ignation.thexeffect.domain.models.Board
+import com.ignation.thexeffect.domain.models.Week
+import com.ignation.thexeffect.domain.models.getCurrentWeekFromBoard
+import com.ignation.thexeffect.domain.models.getCurrentWeekIndex
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
@@ -26,6 +29,7 @@ fun BoardSmall(
     val weekIndex = getCurrentWeekIndex(board)
     val currentWeek = getCurrentWeekFromBoard(board, weekIndex)
     val firstDayOfWeek = board.startDate.plus((weekIndex - 1) * 7, DateTimeUnit.DAY)
+    var startInFuture = weekIndex <= 0
 
     Surface(
         //modifier = Modifier.clip()
@@ -50,7 +54,12 @@ fun BoardSmall(
             Surface(
                 modifier = Modifier.padding(start = 6.dp)
             ) {
-                WeekItem(weekIndex, firstDayOfWeek, board.days)
+                if (startInFuture) {
+                    WeekItem(weekIndex = 1, firstDayOfWeek = board.startDate, days = board.days)
+                } else {
+                    WeekItem(weekIndex, firstDayOfWeek, board.days)
+                }
+
             }
 
             Surface(
@@ -71,14 +80,14 @@ fun BoardSmall(
 val testBoard = Board(
     title = "Become a superhero",
     isActive = true,
-    startDate = LocalDate(2022, 4, 25),
+    startDate = LocalDate(2022, 5, 1),
     isCreateHabit = true,
     weeks = listOf(
         Week(2, "This is week 2"),
         Week(3, "This is week 3")
     ),
     days = listOf(
-        Day(DayStatus.COMPLETED, LocalDate(2022, 5, 10))
+        //Day(DayStatus.COMPLETED, LocalDate(2022, 5, 10))
     )
 )
 
