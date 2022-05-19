@@ -12,8 +12,9 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +30,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ignation.thexeffect.HabitViewModel
@@ -111,31 +113,28 @@ fun CreateHabitContent(navController: NavController, habitViewModel: HabitViewMo
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Button(onClick = {
-                    navController.popBackStack()
-                }) {
-                    Text(text = "Cancel")
-                }
-                Button(onClick = {
-                    if (title.value.isNotEmpty()) {
-                        // TODO: create habit
-                        habitViewModel.createHabit(
-                            board = Board(
-                                title = title.value,
-                                isActive = true,
-                                startDate = LocalDate(
-                                    year = startDate.value.get(Calendar.YEAR),
-                                    monthNumber = startDate.value.get(Calendar.MONTH) + 1,
-                                    dayOfMonth = startDate.value.get(Calendar.DAY_OF_MONTH)
+
+                Button(
+                    onClick = {
+                        if (title.value.isNotEmpty()) {
+                            habitViewModel.createHabit(
+                                board = Board(
+                                    title = title.value,
+                                    isActive = true,
+                                    startDate = LocalDate(
+                                        year = startDate.value.get(Calendar.YEAR),
+                                        monthNumber = startDate.value.get(Calendar.MONTH) + 1,
+                                        dayOfMonth = startDate.value.get(Calendar.DAY_OF_MONTH)
+                                    ),
+                                    isCreateHabit = typeState.value,
                                 ),
-                                isCreateHabit = typeState.value,
-                            ),
-                            weeks = weeksList.values.toList()
-                        )
-                        navController.popBackStack()
-                    }
-                })
-                {
+                                weeks = weeksList.values.toList()
+                            )
+                            navController.popBackStack()
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     Text(text = "Create")
                 }
             }
@@ -155,7 +154,7 @@ fun SetTitle(
             value = titleState.value,
             onValueChange = { titleState.value = it },
             modifier = Modifier.fillMaxWidth(),
-            label = { Text("Habit title") },
+            label = { Text("Card title") },
             placeholder = { Text("Make it as clear as possible") },
             singleLine = true,
             keyboardOptions = KeyboardOptions(
@@ -252,41 +251,48 @@ fun WeekDescription(weeksList: MutableMap<Int, Week>) {
 
     ) {
         Text(text = "You can add description for each week")
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            OutlinedButton(
+                onClick = {
+                    if (weekFieldsCountState.value > 1) {
+                        weeksList.remove(weekFieldsCountState.value)
+                        weekFieldsCountState.value -= 1
+                    } else {
+                        weekFieldsCountState.value = 0
+                    }
+                },
+                modifier = Modifier
+                    .padding(end = 20.dp)
+            ) {
+                Icon(Icons.Default.Clear, contentDescription = "Delete Week")
+                Text(text = "Delete")
+            }
+            OutlinedButton(
+                onClick = {
+                    if (weekFieldsCountState.value < 7) {
+                        weekFieldsCountState.value += 1
+                    } else {
+                        weekFieldsCountState.value = 7
+                    }
+                }
+            ) {
+                Icon(Icons.Default.Add, contentDescription = "Add week")
+                Text(text = "Add")
+            }
+        }
+
         for (i in 1..weekFieldsCountState.value) {
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 InputWeekField(i, weeksList, controller, focus)
-                IconButton(
-                    onClick = {
-                        if (weekFieldsCountState.value > 1) {
-                            weeksList.remove(i)
-                            weekFieldsCountState.value -= 1
-                        } else {
-                            weekFieldsCountState.value = 0
-                        }
-                    },
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically)
-                ) {
-                    Icon(Icons.Rounded.Delete, "Delete")
-                }
             }
         }
 
-        Button(
-            onClick = {
-                if (weekFieldsCountState.value < 7) {
-                    weekFieldsCountState.value += 1
-                } else {
-                    weekFieldsCountState.value = 7
-                }
-            },
-            modifier = Modifier
-                .align(Alignment.End)
-        ) {
-            Text(text = "Add week")
-        }
     }
 }
 
@@ -302,12 +308,13 @@ fun InputWeekField(
         mutableStateOf("")
     }
 
-    OutlinedTextField(
+    TextField(
         value = text.value,
         onValueChange = {
             text.value = it
             weeksList[weekNumber] = Week(weekNumber, text.value)
-                        },
+        },
+        modifier = Modifier.fillMaxWidth(),
         label = { Text(text = "Week №$weekNumber") },
         singleLine = true,
         keyboardOptions = KeyboardOptions(
@@ -318,6 +325,15 @@ fun InputWeekField(
                 focus.clearFocus()
                 controller?.hide()
             }
+        ),
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = Color.Transparent
         )
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun Preview() {
+    WeekDescription(weeksList = mutableMapOf())
 }
