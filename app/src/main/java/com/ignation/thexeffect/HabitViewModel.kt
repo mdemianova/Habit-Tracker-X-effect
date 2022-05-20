@@ -1,6 +1,5 @@
 package com.ignation.thexeffect
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ignation.thexeffect.data.repository.HabitRepositoryImpl
@@ -24,19 +23,44 @@ class HabitViewModel @Inject constructor(
     private val _activeBoards = MutableStateFlow<List<Board>>(emptyList())
     val activeBoards = _activeBoards.asStateFlow()
 
-    init {
+    private val _allWeeks = MutableStateFlow<List<Week>>(emptyList())
+    val allWeeks = _allWeeks.asStateFlow()
+
+    private val _allDays = MutableStateFlow<List<Day>>(emptyList())
+    val allDays = _allDays.asStateFlow()
+
+    private fun setBoards() {
         viewModelScope.launch(Dispatchers.IO) {
             habitRepositoryImpl.getActiveHabits().distinctUntilChanged().collect {
                 if (it.isNotEmpty()) {
                     _activeBoards.value = it
-                } else {
-                    Log.d("HabitViewModel", "activeBoards is empty")
                 }
             }
         }
     }
 
-    var count = 0
+    private fun setDays() {
+        viewModelScope.launch(Dispatchers.IO) {
+            habitRepositoryImpl.getAllDays().distinctUntilChanged().collect {
+                if (it.isNotEmpty()) {
+                    _allDays.value = it
+                }
+            }
+        }
+    }
+
+    private fun setWeeks() {
+        viewModelScope.launch(Dispatchers.IO) {
+            habitRepositoryImpl.getAllWeeks().distinctUntilChanged().collect {
+                _allWeeks.value = it
+            }
+        }
+    }
+
+    init {
+        setBoards()
+        setWeeks()
+    }
 
     fun createHabit(board: Board, weeks: List<Week>?) = viewModelScope.launch {
         habitRepositoryImpl.createHabit(board, weeks)
@@ -49,5 +73,4 @@ class HabitViewModel @Inject constructor(
     fun insertDay(boardId: Long, day: Day) = viewModelScope.launch {
         habitRepositoryImpl.insertDay(boardId, day)
     }
-
 }

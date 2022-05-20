@@ -13,8 +13,11 @@ interface HabitDao {
     @Query("SELECT * FROM board_database WHERE isActive = 1")
     fun getActiveBoards(): Flow<List<BoardEntity>>
 
-    @Query("SELECT * FROM week_database WHERE boardId = :boardId")
-    fun getBoardWeeks(boardId: Long): Flow<List<WeekEntity>>
+    @Query("SELECT * FROM week_database")
+    fun getAllWeeks(): Flow<List<WeekEntity>>
+
+    @Query("SELECT * FROM day_database")
+    fun getAllDays(): Flow<List<DayEntity>>
 
     @Query("SELECT * FROM day_database WHERE boardId = :boardId")
     fun getBoardDays(boardId: Long): Flow<List<DayEntity>>

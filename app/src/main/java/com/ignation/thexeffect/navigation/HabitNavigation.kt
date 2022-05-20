@@ -24,7 +24,12 @@ fun HabitNavigation() {
         startDestination = HabitScreens.TitleScreen.name
     ) {
         composable(HabitScreens.TitleScreen.name) {
-            TitleScreen(navController, habitViewModel.activeBoards.collectAsState())
+            TitleScreen(
+                navController,
+                habitViewModel.activeBoards.collectAsState(),
+                habitViewModel.allWeeks.collectAsState(),
+                habitViewModel.allDays.collectAsState()
+            )
         }
 
         composable(HabitScreens.CreateHabitScreen.name) {

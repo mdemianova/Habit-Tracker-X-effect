@@ -1,8 +1,5 @@
 package com.ignation.thexeffect.data.repository
 
-import androidx.lifecycle.asFlow
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.map
 import com.ignation.thexeffect.data.local.HabitDatabase
 import com.ignation.thexeffect.data.mapper.*
 import com.ignation.thexeffect.domain.models.Board
@@ -22,16 +19,15 @@ class HabitRepositoryImpl @Inject constructor(
     private val dao = db.habitDao()
 
     override fun getActiveHabits(): Flow<List<Board>> {
+        return dao.getActiveBoards().map { it.toBoardList() }
+    }
 
-        val boards = dao.getActiveBoards().map { it.toBoardList() }.asLiveData()
+    override fun getAllWeeks(): Flow<List<Week>> {
+        return dao.getAllWeeks().map { it.toWeekList() }
+    }
 
-        boards.value?.forEach { board ->
-            board.weeks = dao.getBoardWeeks(board.id!!).asLiveData().map { it.toWeekList() }.value
-            board.days = dao.getBoardDays(board.id).asLiveData().map { it.toDayList() }.value
-        }
-        val result = boards.asFlow()
-
-        return result
+    override fun getAllDays(): Flow<List<Day>> {
+        return dao.getAllDays().map { it.toDayList() }
     }
 
     override suspend fun createHabit(board: Board, weeks: List<Week>?) {

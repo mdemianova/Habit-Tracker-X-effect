@@ -13,6 +13,7 @@ fun Day.toDayEntity(id: Long): DayEntity {
 
 fun DayEntity.toDay(): Day {
     return Day(
+        boardId = this.boardId,
         status = DayStatus.COMPLETED,
         date = this.date
     )

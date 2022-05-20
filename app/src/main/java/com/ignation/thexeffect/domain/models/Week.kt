@@ -4,16 +4,17 @@ import kotlinx.datetime.daysUntil
 import kotlin.math.ceil
 
 data class Week(
+    val boardId: Long? = null,
     val index: Int,
     var comment: String
 )
 
-fun getCurrentWeekFromBoard(board: Board, currentWeekIndex: Int): Week? {
+fun getCurrentWeek(weeks: List<Week>?, currentWeekIndex: Int): Week? {
 
-    return if (board.weeks.isNullOrEmpty()) {
+    return if (weeks.isNullOrEmpty()) {
         null
     } else {
-        for (item in board.weeks!!) {
+        for (item in weeks) {
             if (item.index == currentWeekIndex) return item
         }
         null

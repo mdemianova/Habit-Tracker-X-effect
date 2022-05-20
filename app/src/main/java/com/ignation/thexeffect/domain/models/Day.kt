@@ -3,6 +3,7 @@ package com.ignation.thexeffect.domain.models
 import kotlinx.datetime.LocalDate
 
 data class Day(
+    val boardId: Long? = null,
     var status: DayStatus = DayStatus.EMPTY,
     val date: LocalDate
 )

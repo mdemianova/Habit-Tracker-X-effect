@@ -13,6 +13,7 @@ fun Week.toWeekEntity(boardId: Long): WeekEntity {
 
 fun WeekEntity.toWeek(): Week {
     return Week(
+        boardId = this.boardId,
         index = this.index,
         comment = this.comment
     )

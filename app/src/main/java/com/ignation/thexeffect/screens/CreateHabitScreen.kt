@@ -312,7 +312,7 @@ fun InputWeekField(
         value = text.value,
         onValueChange = {
             text.value = it
-            weeksList[weekNumber] = Week(weekNumber, text.value)
+            weeksList[weekNumber] = Week(boardId = null, index = weekNumber, comment = text.value)
         },
         modifier = Modifier.fillMaxWidth(),
         label = { Text(text = "Week №$weekNumber") },
