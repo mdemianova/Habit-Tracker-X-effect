@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 
 @Composable
-fun DetailsScreen(navController: NavController, id: Long?) {
+fun DetailsScreen(navController: NavController, cardId: Long?) {
     Scaffold(
         topBar = {
             TopAppBar {
@@ -27,6 +27,5 @@ fun DetailsScreen(navController: NavController, id: Long?) {
             }
         }
     ) {
-
     }
 }

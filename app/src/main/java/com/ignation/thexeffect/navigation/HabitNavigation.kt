@@ -36,11 +36,13 @@ fun HabitNavigation() {
             CreateHabitScreen(navController, habitViewModel)
         }
 
-        composable(HabitScreens.DetailsScreen.name+"/{card}",
+        composable(HabitScreens.DetailsScreen.name+"/{cardId}",
         arguments = listOf(navArgument(name = "cardId") {type = NavType.LongType})
         ) { backStackEntry ->
-            DetailsScreen(navController = navController,
-            backStackEntry.arguments?.getLong("cardId"))
+            DetailsScreen(
+                navController = navController,
+                backStackEntry.arguments?.getLong("cardId")
+            )
         }
     }
 }

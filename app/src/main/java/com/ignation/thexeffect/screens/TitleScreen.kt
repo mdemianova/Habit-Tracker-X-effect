@@ -62,8 +62,8 @@ fun TitleContent(
                         board = board,
                         weeks = weeks.value.filter { it.boardId == board.id },
                         days = days.value.filter { it.boardId == board.id }
-                    ) { board ->
-                        navController.navigate(route = HabitScreens.DetailsScreen.name + "/${board.id}")
+                    ) {
+                        navController.navigate(route = HabitScreens.DetailsScreen.name + "/${it.id!!}")
                     }
                 }
             }
