@@ -2,7 +2,6 @@ package com.ignation.thexeffect.components
 
 import android.graphics.Paint
 import android.graphics.Typeface
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
@@ -10,20 +9,6 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
-import com.ignation.thexeffect.ui.theme.BoxStandard
-
-fun DrawScope.drawBox(
-    componentSize: Size = size,
-    componentColor: Color = BoxStandard,
-    componentStrokeWidth: Float = size.width / 13f
-) {
-    val stroke = Stroke(componentStrokeWidth)
-    drawRect(
-        size = componentSize,
-        color = componentColor,
-        style = stroke
-    )
-}
 
 fun DrawScope.drawX(
     componentColor: Color = Color.Black
@@ -87,8 +72,8 @@ fun DrawScope.drawX(
 
 fun DrawScope.drawO() {
     drawCircle(
-        color = Color.Black,
-        style = Stroke(width = size.width / 10f),
+        color = Color.Gray,
+        style = Stroke(width = size.width / 12f),
         radius = size.width / 2.5f,
     )
 }

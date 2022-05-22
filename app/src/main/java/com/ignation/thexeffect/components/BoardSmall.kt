@@ -3,6 +3,7 @@ package com.ignation.thexeffect.components
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,9 +13,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ignation.thexeffect.domain.models.*
 import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
 
 @Composable
@@ -37,6 +40,7 @@ fun BoardSmall(
         border = BorderStroke(2.dp, Color.DarkGray)
     ) {
         Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Surface(
                 modifier = Modifier
@@ -54,7 +58,7 @@ fun BoardSmall(
                 )
             }
             Surface(
-                modifier = Modifier.padding(start = 6.dp)
+                modifier = Modifier.padding(horizontal = 8.dp)
             ) {
                 if (startInFuture) {
                     WeekItem(weekIndex = 1, firstDayOfWeek = board.startDate, days = days)
@@ -64,9 +68,7 @@ fun BoardSmall(
             }
 
             Surface(
-                modifier = Modifier.fillMaxWidth(),
-                color = Color.LightGray,
-                border = BorderStroke(2.dp, Color.Gray)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 if (currentWeek != null) {
                     Text(
@@ -80,22 +82,15 @@ fun BoardSmall(
     }
 }
 
-//val testBoard = Board(
-//    title = "Become a superhero",
-//    isActive = true,
-//    startDate = LocalDate(2022, 5, 1),
-//    isCreateHabit = true,
-//    weeks = listOf(
-//        Week(2, "This is week 2"),
-//        Week(3, "This is week 3")
-//    ),
-//    days = listOf(
-//        //Day(DayStatus.COMPLETED, LocalDate(2022, 5, 10))
-//    )
-//)
+val testBoard = Board(
+    title = "Become a superhero",
+    isActive = true,
+    startDate = LocalDate(2022, 5, 1),
+    isCreateHabit = true
+)
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewBoardSmall() {
-//    BoardSmall(testBoard) { Log.d("BoardSmall", "PreviewBoardSmall: clicked")}
-//}
+@Preview(showBackground = true)
+@Composable
+fun PreviewBoardSmall() {
+    BoardSmall(testBoard, listOf(), listOf()) {}
+}

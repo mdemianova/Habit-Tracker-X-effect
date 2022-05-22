@@ -1,7 +1,8 @@
 package com.ignation.thexeffect.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,27 +20,30 @@ fun WeekItem(
     firstDayOfWeek: LocalDate,
     days: List<Day>?
 ) {
-    Row {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
         Text(
             text = "$weekIndex",
             modifier = Modifier
-                .padding(end = 5.dp)
                 .align(Alignment.CenterVertically)
         )
         val date = firstDayOfWeek
+        val modifier = Modifier.weight(1f)
 
         if (days == null) {
             for (i in 0..6) {
-                DayItem(day = Day(date = date.plus(i, DateTimeUnit.DAY)))
+                DayItem(day = Day(date = date.plus(i, DateTimeUnit.DAY)), modifier)
             }
         } else {
             for (i in 0..6) {
                 val filteredList = days.filter { it.date == date.plus(i, DateTimeUnit.DAY) }
                 if (filteredList.size == 1) {
                     val day = filteredList[0]
-                    DayItem(day = day)
+                    DayItem(day = day, modifier)
                 } else {
-                    DayItem(day = Day(date = date.plus(i, DateTimeUnit.DAY)))
+                    DayItem(day = Day(date = date.plus(i, DateTimeUnit.DAY)), modifier)
                 }
             }
         }

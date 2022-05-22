@@ -1,5 +1,6 @@
 package com.ignation.thexeffect.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
@@ -18,7 +19,9 @@ fun BoardFull(
     weeks: List<Week>,
     days: List<Day>
 ) {
-    Column {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
         Text(
             text = board.title,
             modifier = Modifier.padding(start = 14.dp)
