@@ -61,10 +61,7 @@ fun CreateHabitScreen(navController: NavController, habitViewModel: HabitViewMod
     ) {
         Surface(
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
                 .padding(8.dp),
-            color = MaterialTheme.colors.background
         ) {
             CreateHabitContent(navController, habitViewModel)
         }

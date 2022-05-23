@@ -3,8 +3,10 @@ package com.ignation.thexeffect
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.ignation.thexeffect.navigation.HabitNavigation
 import com.ignation.thexeffect.ui.theme.TheXEffectTheme
@@ -18,7 +20,9 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             TheXEffectTheme {
-                Surface {
+                Surface(
+                    modifier = Modifier.fillMaxSize()
+                ) {
                     HabitNavigation()
                 }
             }

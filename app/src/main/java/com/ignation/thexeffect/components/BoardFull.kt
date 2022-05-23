@@ -27,8 +27,9 @@ fun BoardFull(
             modifier = Modifier.padding(start = 14.dp)
         )
         var startDate = board.startDate
+
         for (i in 1..7) {
-            WeekItem(i, startDate, days)
+            WeekItem(i, startDate, days.filter { it.boardId == board.id })
             startDate = startDate.plus(7, DateTimeUnit.DAY)
         }
     }

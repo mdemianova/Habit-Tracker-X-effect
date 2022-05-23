@@ -41,7 +41,10 @@ fun HabitNavigation() {
         ) { backStackEntry ->
             DetailsScreen(
                 navController = navController,
-                backStackEntry.arguments?.getLong("cardId")
+                cardId = backStackEntry.arguments?.getLong("cardId"),
+                boards = habitViewModel.activeBoards.collectAsState(),
+                weeks = habitViewModel.allWeeks.collectAsState(),
+                days = habitViewModel.allDays.collectAsState()
             )
         }
     }

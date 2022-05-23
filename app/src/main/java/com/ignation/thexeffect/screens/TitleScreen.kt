@@ -1,6 +1,5 @@
 package com.ignation.thexeffect.screens
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -50,8 +49,7 @@ fun TitleContent(
     days: State<List<Day>>
 ) {
     Surface(modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 10.dp)
+        .padding(horizontal = 8.dp)
     ) {
         if (boards.value.isEmpty()) {
             Text(text = "Create a new card by pressing +")
