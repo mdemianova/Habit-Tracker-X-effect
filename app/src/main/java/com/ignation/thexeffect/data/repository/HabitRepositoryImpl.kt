@@ -41,7 +41,11 @@ class HabitRepositoryImpl @Inject constructor(
         db.habitDao().deleteHabit(board.toBoardEntity())
     }
 
-    override suspend fun insertDay(boardId: Long, day: Day) {
-        db.habitDao().insertDay(day.toDayEntity(boardId))
+    override suspend fun insertDay(day: Day) {
+        db.habitDao().insertDay(day.toDayEntity())
+    }
+
+    override suspend fun deleteDay(day: Day) {
+        db.habitDao().deleteDay(day.toDayEntity().boardId, day.toDayEntity().date)
     }
 }

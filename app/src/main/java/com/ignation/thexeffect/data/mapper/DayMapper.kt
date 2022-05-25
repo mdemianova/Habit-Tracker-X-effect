@@ -4,9 +4,9 @@ import com.ignation.thexeffect.data.local.entities.DayEntity
 import com.ignation.thexeffect.domain.models.Day
 import com.ignation.thexeffect.domain.models.DayStatus
 
-fun Day.toDayEntity(id: Long): DayEntity {
+fun Day.toDayEntity(): DayEntity {
     return DayEntity(
-        boardId = id,
+        boardId = this.boardId!!,
         date = this.date
     )
 }
@@ -19,9 +19,9 @@ fun DayEntity.toDay(): Day {
     )
 }
 
-fun List<Day>.toDayEntityList(id: Long): List<DayEntity> {
+fun List<Day>.toDayEntityList(): List<DayEntity> {
     return map {
-        it.toDayEntity(id)
+        it.toDayEntity()
     }
 }
 

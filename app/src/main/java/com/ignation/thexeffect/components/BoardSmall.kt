@@ -25,7 +25,9 @@ fun BoardSmall(
     board: Board,
     weeks: List<Week>,
     days: List<Day>,
-    onItemClick: (Board) -> Unit
+    onItemClick: (Board) -> Unit,
+    insertDay: (Day) -> Unit,
+    deleteDay: (Day) -> Unit
 ) {
     val weekIndex = getCurrentWeekIndex(board)
     val currentWeek = getCurrentWeek(weeks, weekIndex)
@@ -61,9 +63,23 @@ fun BoardSmall(
                 modifier = Modifier.padding(horizontal = 8.dp)
             ) {
                 if (startInFuture) {
-                    WeekItem(weekIndex = 1, firstDayOfWeek = board.startDate, days = days)
+                    WeekItem(
+                        weekIndex = 1,
+                        firstDayOfWeek = board.startDate,
+                        days = days,
+                        boardId = board.id!!,
+                        insertDay = insertDay,
+                        deleteDay = deleteDay
+                    )
                 } else {
-                    WeekItem(weekIndex, firstDayOfWeek, days)
+                    WeekItem(
+                        weekIndex = weekIndex,
+                        firstDayOfWeek = firstDayOfWeek,
+                        days = days,
+                        boardId = board.id!!,
+                        insertDay = insertDay,
+                        deleteDay = deleteDay
+                    )
                 }
             }
 
@@ -92,5 +108,5 @@ val testBoard = Board(
 @Preview(showBackground = true)
 @Composable
 fun PreviewBoardSmall() {
-    BoardSmall(testBoard, listOf(), listOf()) {}
+//    BoardSmall(testBoard, listOf(), listOf()) {}
 }

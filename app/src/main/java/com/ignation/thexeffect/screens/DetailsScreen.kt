@@ -22,7 +22,9 @@ fun DetailsScreen(
     cardId: Long?,
     boards: State<List<Board>>,
     weeks: State<List<Week>>,
-    days: State<List<Day>>
+    days: State<List<Day>>,
+    insertDay: (Day) -> Unit,
+    deleteDay: (Day) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -43,7 +45,9 @@ fun DetailsScreen(
                 BoardFull(
                     board = boards.value.filter { it.id == cardId }[0],
                     weeks = weeks.value.filter { it.boardId == cardId },
-                    days = days.value.filter { it.boardId == cardId }
+                    days = days.value.filter { it.boardId == cardId },
+                    insertDay = insertDay,
+                    deleteDay = deleteDay
                 )
             }
         }

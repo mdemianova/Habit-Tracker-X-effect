@@ -13,7 +13,7 @@ import com.ignation.thexeffect.data.local.entities.WeekEntity
         BoardEntity::class,
         WeekEntity::class,
         DayEntity::class
-    ], version = 7, exportSchema = false
+    ], version = 9, exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class HabitDatabase : RoomDatabase() {

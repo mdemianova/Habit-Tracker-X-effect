@@ -17,7 +17,9 @@ import kotlinx.datetime.plus
 fun BoardFull(
     board: Board,
     weeks: List<Week>,
-    days: List<Day>
+    days: List<Day>,
+    insertDay: (Day) -> Unit,
+    deleteDay: (Day) -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -29,7 +31,14 @@ fun BoardFull(
         var startDate = board.startDate
 
         for (i in 1..7) {
-            WeekItem(i, startDate, days.filter { it.boardId == board.id })
+            WeekItem(
+                weekIndex = i,
+                firstDayOfWeek = startDate,
+                days = days.filter { it.boardId == board.id },
+                boardId = board.id!!,
+                insertDay = insertDay,
+                deleteDay = deleteDay
+            )
             startDate = startDate.plus(7, DateTimeUnit.DAY)
         }
     }

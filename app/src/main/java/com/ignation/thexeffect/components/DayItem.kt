@@ -13,20 +13,24 @@ import androidx.compose.ui.Modifier
 import com.ignation.thexeffect.domain.models.Day
 import com.ignation.thexeffect.domain.models.DayStatus
 import com.ignation.thexeffect.domain.models.setActualStatus
-import com.ignation.thexeffect.domain.models.statusChange
 import com.ignation.thexeffect.ui.theme.Peach
 
 @Composable
 fun DayItem(
     day: Day,
-    modifier: Modifier
+    modifier: Modifier,
+    boardId: Long,
+    insertDay: (Day) -> Unit,
+    deleteDay: (Day) -> Unit
 ) {
-    val dateText = day.date.dayOfMonth.toString()
-    day.setActualStatus()
+    val dateLabel = day.date.dayOfMonth.toString()
 
     val dayState by remember {
         mutableStateOf(day)
     }
+    dayState.boardId = boardId
+    dayState.setActualStatus()
+
 
     Box(
         modifier = Modifier
@@ -35,8 +39,23 @@ fun DayItem(
             .clickable(
                 enabled = dayState.status != DayStatus.UNAVAILABLE
             ) {
-                dayState.statusChange()
-            }.then(modifier)
+                dayState.status = when (dayState.status) {
+                    DayStatus.COMPLETED -> {
+                        deleteDay(dayState)
+                        DayStatus.MISSED
+                    }
+                    DayStatus.MISSED -> {
+                        insertDay(dayState)
+                        DayStatus.COMPLETED
+                    }
+                    DayStatus.AVAILABLE -> {
+                        insertDay(dayState)
+                        DayStatus.COMPLETED
+                    }
+                    else -> throw IllegalStateException()
+                }
+            }
+            .then(modifier)
     ) {
         Canvas(
             modifier = Modifier
@@ -50,9 +69,20 @@ fun DayItem(
                     drawO()
                 }
                 else -> {
-                    drawDateLabel(dateText)
+                    drawDateLabel(dateLabel)
                 }
             }
         }
     }
 }
+
+//@Preview(showBackground = true)
+//@Composable
+//fun DayPreview() {
+//    DayItem(
+//        day = Day(),
+//        modifier = ,
+//        boardId = ,
+//        insertDay =
+//    )
+//}

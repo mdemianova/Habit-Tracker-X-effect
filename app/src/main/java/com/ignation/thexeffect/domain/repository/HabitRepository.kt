@@ -17,5 +17,7 @@ interface HabitRepository {
 
     suspend fun deleteHabit(board: Board)
 
-    suspend fun insertDay(boardId: Long, day: Day)
+    suspend fun insertDay(day: Day)
+
+    suspend fun deleteDay(day: Day)
 }

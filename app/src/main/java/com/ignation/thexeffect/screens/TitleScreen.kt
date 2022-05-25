@@ -22,7 +22,9 @@ fun TitleScreen(
     navController: NavController,
     boards: State<List<Board>>,
     weeks: State<List<Week>>,
-    days: State<List<Day>>
+    days: State<List<Day>>,
+    insertDay: (Day) -> Unit,
+    deleteDay: (Day) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -37,7 +39,7 @@ fun TitleScreen(
         },
         floatingActionButtonPosition = FabPosition.End
     ) {
-        TitleContent(navController, boards, weeks, days)
+        TitleContent(navController, boards, weeks, days, insertDay, deleteDay)
     }
 }
 
@@ -46,7 +48,9 @@ fun TitleContent(
     navController: NavController,
     boards: State<List<Board>>,
     weeks: State<List<Week>>,
-    days: State<List<Day>>
+    days: State<List<Day>>,
+    insertDay: (Day) -> Unit,
+    deleteDay: (Day) -> Unit
 ) {
     Surface(modifier = Modifier
         .padding(horizontal = 8.dp)
@@ -59,10 +63,11 @@ fun TitleContent(
                     BoardSmall(
                         board = board,
                         weeks = weeks.value.filter { it.boardId == board.id },
-                        days = days.value.filter { it.boardId == board.id }
-                    ) {
-                        navController.navigate(route = HabitScreens.DetailsScreen.name + "/${it.id!!}")
-                    }
+                        days = days.value.filter { it.boardId == board.id },
+                        onItemClick = {navController.navigate(route = HabitScreens.DetailsScreen.name + "/${it.id!!}")},
+                        insertDay = insertDay,
+                        deleteDay = deleteDay
+                    )
                 }
             }
         }

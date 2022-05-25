@@ -1,5 +1,6 @@
 package com.ignation.thexeffect.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,7 +19,10 @@ import kotlinx.datetime.plus
 fun WeekItem(
     weekIndex: Int,
     firstDayOfWeek: LocalDate,
-    days: List<Day>?
+    days: List<Day>,
+    boardId: Long,
+    insertDay: (Day) -> Unit,
+    deleteDay: (Day) -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -32,18 +36,42 @@ fun WeekItem(
         val date = firstDayOfWeek
         val modifier = Modifier.weight(1f)
 
-        if (days == null) {
+        if (days.isEmpty()) {
             for (i in 0..6) {
-                DayItem(day = Day(date = date.plus(i, DateTimeUnit.DAY)), modifier)
+                DayItem(
+                    day = Day(
+                        date = date.plus(i, DateTimeUnit.DAY)
+                    ),
+                    modifier = modifier,
+                    boardId = boardId,
+                    insertDay = insertDay,
+                    deleteDay = deleteDay
+                )
+                Log.d("WeekItem", "Empty day created")
             }
         } else {
             for (i in 0..6) {
                 val filteredList = days.filter { it.date == date.plus(i, DateTimeUnit.DAY) }
                 if (filteredList.size == 1) {
                     val day = filteredList[0]
-                    DayItem(day = day, modifier)
+                    DayItem(
+                        day = day,
+                        modifier = modifier,
+                        boardId = boardId,
+                        insertDay = insertDay,
+                        deleteDay = deleteDay
+                    )
+                    Log.d("WeekItem", "Saved day created")
                 } else {
-                    DayItem(day = Day(date = date.plus(i, DateTimeUnit.DAY)), modifier)
+                    DayItem(day = Day(
+                            date = date.plus(i, DateTimeUnit.DAY)
+                        ),
+                        modifier = modifier,
+                        boardId = boardId,
+                        insertDay = insertDay,
+                        deleteDay = deleteDay
+                    )
+                    Log.d("WeekItem", "Empty day from saved created")
                 }
             }
         }
@@ -53,5 +81,5 @@ fun WeekItem(
 @Preview(showBackground = true)
 @Composable
 fun PreviewWeek() {
-    WeekItem(weekIndex = 3, firstDayOfWeek = LocalDate(2022, 5, 7), null)
+    WeekItem(weekIndex = 3, firstDayOfWeek = LocalDate(2022, 5, 7), listOf(), 5, {}, {})
 }

@@ -5,6 +5,7 @@ import com.ignation.thexeffect.data.local.entities.BoardEntity
 import com.ignation.thexeffect.data.local.entities.DayEntity
 import com.ignation.thexeffect.data.local.entities.WeekEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.datetime.LocalDate
 
 @Dao
 interface HabitDao {
@@ -35,9 +36,6 @@ interface HabitDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDay(day: DayEntity)
 
-    @Update
-    suspend fun updateDay(day: DayEntity)
-
     // Deleting
     @Transaction
     suspend fun deleteHabit(boardEntity: BoardEntity) {
@@ -55,6 +53,6 @@ interface HabitDao {
     @Query("DELETE FROM day_database WHERE boardId = :id")
     suspend fun deleteDays(id: Long)
 
-    @Delete
-    suspend fun deleteDay(day: DayEntity)
+    @Query("DELETE FROM day_database WHERE boardId = :boardId AND date = :date")
+    suspend fun deleteDay(boardId: Long, date: LocalDate)
 }

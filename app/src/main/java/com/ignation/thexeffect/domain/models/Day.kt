@@ -3,9 +3,9 @@ package com.ignation.thexeffect.domain.models
 import kotlinx.datetime.LocalDate
 
 data class Day(
-    val boardId: Long? = null,
+    var boardId: Long? = null,
     var status: DayStatus = DayStatus.EMPTY,
-    val date: LocalDate
+    val date: LocalDate,
 )
 
 fun Day.setActualStatus() {
@@ -19,14 +19,14 @@ fun Day.setActualStatus() {
     }
 }
 
-fun Day.statusChange() {
-    status = when (status) {
-        DayStatus.COMPLETED -> DayStatus.MISSED
-        DayStatus.MISSED -> DayStatus.COMPLETED
-        DayStatus.AVAILABLE -> DayStatus.COMPLETED
-        else -> return
-    }
-}
+//fun Day.statusChange() {
+//    status = when (status) {
+//        DayStatus.COMPLETED -> DayStatus.MISSED
+//        DayStatus.MISSED -> DayStatus.COMPLETED
+//        DayStatus.AVAILABLE -> DayStatus.COMPLETED
+//        else -> return
+//    }
+//}
 
 /**
  * By default, today is EMPTY for changing status.

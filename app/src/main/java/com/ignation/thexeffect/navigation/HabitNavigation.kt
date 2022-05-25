@@ -28,7 +28,9 @@ fun HabitNavigation() {
                 navController,
                 habitViewModel.activeBoards.collectAsState(),
                 habitViewModel.allWeeks.collectAsState(),
-                habitViewModel.allDays.collectAsState()
+                habitViewModel.allDays.collectAsState(),
+                insertDay = {habitViewModel.insertDay(it)},
+                deleteDay = {habitViewModel.deleteDay(it)}
             )
         }
 
@@ -44,7 +46,9 @@ fun HabitNavigation() {
                 cardId = backStackEntry.arguments?.getLong("cardId"),
                 boards = habitViewModel.activeBoards.collectAsState(),
                 weeks = habitViewModel.allWeeks.collectAsState(),
-                days = habitViewModel.allDays.collectAsState()
+                days = habitViewModel.allDays.collectAsState(),
+                insertDay = {habitViewModel.insertDay(it)},
+                deleteDay = {habitViewModel.deleteDay(it)}
             )
         }
     }
