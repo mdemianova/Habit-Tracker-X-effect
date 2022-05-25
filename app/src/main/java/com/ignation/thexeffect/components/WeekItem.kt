@@ -8,7 +8,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ignation.thexeffect.domain.models.Day
 import kotlinx.datetime.DateTimeUnit
@@ -47,7 +46,7 @@ fun WeekItem(
                     insertDay = insertDay,
                     deleteDay = deleteDay
                 )
-                Log.d("WeekItem", "Empty day created")
+                Log.d("WeekItem", "№${i+1} Empty day created")
             }
         } else {
             for (i in 0..6) {
@@ -61,7 +60,7 @@ fun WeekItem(
                         insertDay = insertDay,
                         deleteDay = deleteDay
                     )
-                    Log.d("WeekItem", "Saved day created")
+                    Log.d("WeekItem", "№${i+1} Saved day created")
                 } else {
                     DayItem(day = Day(
                             date = date.plus(i, DateTimeUnit.DAY)
@@ -71,15 +70,15 @@ fun WeekItem(
                         insertDay = insertDay,
                         deleteDay = deleteDay
                     )
-                    Log.d("WeekItem", "Empty day from saved created")
+                    Log.d("WeekItem", "№${i+1} Empty day from saved created")
                 }
             }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewWeek() {
-    WeekItem(weekIndex = 3, firstDayOfWeek = LocalDate(2022, 5, 7), listOf(), 5, {}, {})
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewWeek() {
+//    WeekItem(weekIndex = 3, firstDayOfWeek = LocalDate(2022, 5, 7), listOf(), 5, {}, {})
+//}

@@ -6,9 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.ignation.thexeffect.domain.models.Day
 import com.ignation.thexeffect.domain.models.DayStatus
@@ -25,31 +22,27 @@ fun DayItem(
 ) {
     val dateLabel = day.date.dayOfMonth.toString()
 
-    val dayState by remember {
-        mutableStateOf(day)
-    }
-    dayState.boardId = boardId
-    dayState.setActualStatus()
-
+    day.boardId = boardId
+    day.setActualStatus()
 
     Box(
         modifier = Modifier
             .background(Peach)
             .aspectRatio(1f)
             .clickable(
-                enabled = dayState.status != DayStatus.UNAVAILABLE
+                enabled = day.status != DayStatus.UNAVAILABLE
             ) {
-                dayState.status = when (dayState.status) {
+                day.status = when (day.status) {
                     DayStatus.COMPLETED -> {
-                        deleteDay(dayState)
+                        deleteDay(day)
                         DayStatus.MISSED
                     }
                     DayStatus.MISSED -> {
-                        insertDay(dayState)
+                        insertDay(day)
                         DayStatus.COMPLETED
                     }
                     DayStatus.AVAILABLE -> {
-                        insertDay(dayState)
+                        insertDay(day)
                         DayStatus.COMPLETED
                     }
                     else -> throw IllegalStateException()
@@ -61,7 +54,7 @@ fun DayItem(
             modifier = Modifier
                 .matchParentSize()
         ) {
-            when (dayState.status) {
+            when (day.status) {
                 DayStatus.COMPLETED -> {
                     drawX()
                 }
@@ -75,14 +68,3 @@ fun DayItem(
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun DayPreview() {
-//    DayItem(
-//        day = Day(),
-//        modifier = ,
-//        boardId = ,
-//        insertDay =
-//    )
-//}
