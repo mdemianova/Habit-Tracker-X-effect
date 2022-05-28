@@ -32,18 +32,18 @@ fun DayItem(
             .clickable(
                 enabled = day.status != DayStatus.UNAVAILABLE
             ) {
-                day.status = when (day.status) {
+                when (day.status) {
                     DayStatus.COMPLETED -> {
                         deleteDay(day)
-                        DayStatus.MISSED
+                        day.setActualStatus()
                     }
                     DayStatus.MISSED -> {
                         insertDay(day)
-                        DayStatus.COMPLETED
+                        day.setActualStatus()
                     }
                     DayStatus.AVAILABLE -> {
                         insertDay(day)
-                        DayStatus.COMPLETED
+                        day.setActualStatus()
                     }
                     else -> throw IllegalStateException()
                 }

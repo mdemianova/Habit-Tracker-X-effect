@@ -223,11 +223,11 @@ fun ChooseType(typeState: MutableState<Boolean>) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        RadioButton(selected = true, onClick = { typeState.value = true })
+        RadioButton(selected = typeState.value, onClick = { typeState.value = true })
         Text(text = "Create Habit")
         Spacer(modifier = Modifier.width(10.dp))
 
-        RadioButton(selected = false, onClick = { typeState.value = false })
+        RadioButton(selected = !typeState.value, onClick = { typeState.value = false })
         Text(text = "Break Habit")
     }
 }

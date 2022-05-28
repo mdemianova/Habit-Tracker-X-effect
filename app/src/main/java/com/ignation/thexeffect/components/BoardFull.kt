@@ -7,9 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ignation.thexeffect.domain.models.Board
-import com.ignation.thexeffect.domain.models.Day
-import com.ignation.thexeffect.domain.models.Week
+import com.ignation.thexeffect.domain.models.*
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
 
@@ -21,6 +19,9 @@ fun BoardFull(
     insertDay: (Day) -> Unit,
     deleteDay: (Day) -> Unit
 ) {
+
+    val boardDays = days.filter { it.boardId == board.id }
+
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -34,12 +35,17 @@ fun BoardFull(
             WeekItem(
                 weekIndex = i,
                 firstDayOfWeek = startDate,
-                days = days.filter { it.boardId == board.id },
+                days = boardDays,
                 boardId = board.id!!,
                 insertDay = insertDay,
                 deleteDay = deleteDay
             )
             startDate = startDate.plus(7, DateTimeUnit.DAY)
+        }
+        val weekIndex = getCurrentWeekIndex(board)
+        val currentWeek = getCurrentWeek(weeks, weekIndex)
+        if (currentWeek != null) {
+            Text(text = currentWeek.comment)
         }
     }
 }

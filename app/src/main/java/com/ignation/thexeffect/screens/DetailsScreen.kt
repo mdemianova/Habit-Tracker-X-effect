@@ -26,26 +26,32 @@ fun DetailsScreen(
     insertDay: (Day) -> Unit,
     deleteDay: (Day) -> Unit
 ) {
+    val detailsBoard = boards.value.filter { it.id == cardId }[0]
+    val detailsWeek = weeks.value.filter { it.boardId == cardId }
+    val detailsDay = days.value.filter { it.boardId == cardId }
+
     Scaffold(
         topBar = {
-            TopAppBar {
-                Icon(
-                    Icons.Default.ArrowBack,
-                    contentDescription = "Arrow Back",
-                    modifier = Modifier.clickable {
-                        navController.popBackStack()
-                    }
-                )
-                Text(text = "Card Details")
-            }
+            TopAppBar(
+                title = { Text(text = "Card Details") },
+                navigationIcon = {
+                    Icon(
+                        Icons.Default.ArrowBack,
+                        contentDescription = "Arrow Back",
+                        modifier = Modifier.clickable {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+            )
         }
     ) {
         Surface(modifier = Modifier.padding(8.dp)) {
             Column {
                 BoardFull(
-                    board = boards.value.filter { it.id == cardId }[0],
-                    weeks = weeks.value.filter { it.boardId == cardId },
-                    days = days.value.filter { it.boardId == cardId },
+                    board = detailsBoard,
+                    weeks = detailsWeek,
+                    days = detailsDay,
                     insertDay = insertDay,
                     deleteDay = deleteDay
                 )

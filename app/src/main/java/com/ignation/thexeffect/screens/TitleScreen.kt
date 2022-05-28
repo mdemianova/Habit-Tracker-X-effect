@@ -1,5 +1,6 @@
 package com.ignation.thexeffect.screens
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,7 +29,9 @@ fun TitleScreen(
 ) {
     Scaffold(
         topBar = {
-            Text(text = "Title")
+            TopAppBar(
+                title = { Text(text = "Title") }
+            )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
@@ -55,19 +58,23 @@ fun TitleContent(
     Surface(modifier = Modifier
         .padding(horizontal = 8.dp)
     ) {
-        if (boards.value.isEmpty()) {
-            Text(text = "Create a new card by pressing +")
-        } else {
-            LazyColumn {
-                items(items = boards.value) { board ->
-                    BoardSmall(
-                        board = board,
-                        weeks = weeks.value.filter { it.boardId == board.id },
-                        days = days.value.filter { it.boardId == board.id },
-                        onItemClick = {navController.navigate(route = HabitScreens.DetailsScreen.name + "/${it.id!!}")},
-                        insertDay = insertDay,
-                        deleteDay = deleteDay
-                    )
+        Column {
+            if (boards.value.isEmpty()) {
+                Text(text = "Create a new card by pressing +")
+            } else {
+                LazyColumn {
+                    items(items = boards.value) { board ->
+                        val boardWeeks = weeks.value.filter { it.boardId == board.id }
+                        val boardDays = days.value.filter { it.boardId == board.id }
+                        BoardSmall(
+                            board = board,
+                            weeks = boardWeeks,
+                            days = boardDays,
+                            onItemClick = {navController.navigate(route = HabitScreens.DetailsScreen.name + "/${it.id!!}")},
+                            insertDay = insertDay,
+                            deleteDay = deleteDay
+                        )
+                    }
                 }
             }
         }

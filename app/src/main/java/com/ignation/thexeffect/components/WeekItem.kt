@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ignation.thexeffect.domain.models.Day
 import kotlinx.datetime.DateTimeUnit
@@ -77,8 +78,15 @@ fun WeekItem(
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewWeek() {
-//    WeekItem(weekIndex = 3, firstDayOfWeek = LocalDate(2022, 5, 7), listOf(), 5, {}, {})
-//}
+@Preview(showBackground = true)
+@Composable
+fun PreviewWeek() {
+    WeekItem(
+        weekIndex = 1,
+        firstDayOfWeek = LocalDate(2022, 5, 25),
+        listOf(),
+        5,
+        {},
+        {}
+    )
+}

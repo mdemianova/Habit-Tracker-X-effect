@@ -1,6 +1,5 @@
 package com.ignation.thexeffect.components
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ignation.thexeffect.domain.models.*
+import com.ignation.thexeffect.ui.theme.BreakColor
+import com.ignation.thexeffect.ui.theme.CreateColor
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
@@ -46,11 +47,9 @@ fun BoardSmall(
         ) {
             Surface(
                 modifier = Modifier
-                    .clickable {
-                        onItemClick(board)
-                    }
+                    .clickable { onItemClick(board) }
                     .fillMaxWidth(),
-                color = Color.Red,
+                color = if (board.isCreateHabit) CreateColor else BreakColor,
                 border = BorderStroke(2.dp, Color.DarkGray)
             ) {
                 Text(
@@ -59,8 +58,10 @@ fun BoardSmall(
                         .padding(top = 5.dp, start = 5.dp, bottom = 4.dp)
                 )
             }
+
             Surface(
-                modifier = Modifier.padding(horizontal = 8.dp)
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
             ) {
                 if (startInFuture) {
                     WeekItem(
@@ -90,8 +91,6 @@ fun BoardSmall(
                     Text(
                         text = currentWeek.comment
                     )
-                } else {
-                    Log.d("BoardSmall", "i got null week")
                 }
             }
         }
@@ -99,14 +98,15 @@ fun BoardSmall(
 }
 
 val testBoard = Board(
+    id = 2,
     title = "Become a superhero",
     isActive = true,
-    startDate = LocalDate(2022, 5, 1),
+    startDate = LocalDate(2022, 5, 22),
     isCreateHabit = true
 )
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewBoardSmall() {
-//    BoardSmall(testBoard, listOf(), listOf()) {}
+    BoardSmall(testBoard, listOf(), listOf(), {}, {},{})
 }

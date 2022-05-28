@@ -19,6 +19,9 @@ fun HabitNavigation() {
 
     val navController = rememberNavController()
     val habitViewModel = hiltViewModel<HabitViewModel>()
+    val boardsState = habitViewModel.activeBoards.collectAsState()
+    val weeksState = habitViewModel.allWeeks.collectAsState()
+    val daysState = habitViewModel.allDays.collectAsState()
 
     NavHost(
         navController = navController,
@@ -27,18 +30,20 @@ fun HabitNavigation() {
         composable(HabitScreens.TitleScreen.name) {
             Log.d("Navigation", "Title called")
             TitleScreen(
-                navController,
-                habitViewModel.activeBoards.collectAsState(),
-                habitViewModel.allWeeks.collectAsState(),
-                habitViewModel.allDays.collectAsState(),
-                insertDay = {habitViewModel.insertDay(it)},
-                deleteDay = {habitViewModel.deleteDay(it)}
+                navController = navController,
+                boards = boardsState,
+                weeks = weeksState,
+                days = daysState,
+                insertDay = habitViewModel::insertDay,
+                deleteDay = habitViewModel::deleteDay
             )
-
         }
 
         composable(HabitScreens.CreateHabitScreen.name) {
-            CreateHabitScreen(navController, habitViewModel)
+            CreateHabitScreen(
+                navController = navController,
+                habitViewModel = habitViewModel
+            )
         }
 
         composable(HabitScreens.DetailsScreen.name+"/{cardId}",
@@ -47,11 +52,11 @@ fun HabitNavigation() {
             DetailsScreen(
                 navController = navController,
                 cardId = backStackEntry.arguments?.getLong("cardId"),
-                boards = habitViewModel.activeBoards.collectAsState(),
-                weeks = habitViewModel.allWeeks.collectAsState(),
-                days = habitViewModel.allDays.collectAsState(),
-                insertDay = {habitViewModel.insertDay(it)},
-                deleteDay = {habitViewModel.deleteDay(it)}
+                boards = boardsState,
+                weeks = weeksState,
+                days = daysState,
+                insertDay = habitViewModel::insertDay,
+                deleteDay = habitViewModel::deleteDay
             )
         }
     }
