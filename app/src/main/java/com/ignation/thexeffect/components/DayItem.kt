@@ -16,13 +16,11 @@ import com.ignation.thexeffect.ui.theme.Peach
 fun DayItem(
     day: Day,
     modifier: Modifier,
-    boardId: Long,
     insertDay: (Day) -> Unit,
-    deleteDay: (Day) -> Unit
+    deleteDay: (Day) -> Unit,
 ) {
     val dateLabel = day.date.dayOfMonth.toString()
 
-    day.boardId = boardId
     day.setActualStatus()
 
     Box(
@@ -32,18 +30,18 @@ fun DayItem(
             .clickable(
                 enabled = day.status != DayStatus.UNAVAILABLE
             ) {
-                when (day.status) {
+                day.status = when (day.status) {
                     DayStatus.COMPLETED -> {
                         deleteDay(day)
-                        day.setActualStatus()
+                        DayStatus.MISSED
                     }
                     DayStatus.MISSED -> {
                         insertDay(day)
-                        day.setActualStatus()
+                        DayStatus.COMPLETED
                     }
                     DayStatus.AVAILABLE -> {
                         insertDay(day)
-                        day.setActualStatus()
+                        DayStatus.COMPLETED
                     }
                     else -> throw IllegalStateException()
                 }

@@ -1,11 +1,12 @@
 package com.ignation.thexeffect.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,8 +23,45 @@ fun WeekItem(
     days: List<Day>,
     boardId: Long,
     insertDay: (Day) -> Unit,
-    deleteDay: (Day) -> Unit
+    deleteDay: (Day) -> Unit,
 ) {
+    val date = firstDayOfWeek
+
+    val listOfDays = MutableList(7) { Day(date = date) }
+
+    for (i in 0..6) {
+        if (days.isEmpty()) {
+            listOfDays.set(
+                index = i,
+                element = Day(
+                    boardId = boardId,
+                    date = date.plus(i, DateTimeUnit.DAY)
+                )
+            )
+        } else {
+            val filteredList = days.filter { it.date == date.plus(i, DateTimeUnit.DAY) }
+            if (filteredList.size == 1) {
+                val day = filteredList[0]
+                listOfDays.set(
+                    index = i,
+                    element = day
+                )
+            } else {
+                listOfDays.set(
+                    index = i,
+                    element = Day(
+                        boardId = boardId,
+                        date = date.plus(i, DateTimeUnit.DAY)
+                    )
+                )
+            }
+        }
+    }
+
+    val dayState = remember {
+        mutableStateOf(listOfDays)
+    }
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -33,47 +71,15 @@ fun WeekItem(
             modifier = Modifier
                 .align(Alignment.CenterVertically)
         )
-        val date = firstDayOfWeek
         val modifier = Modifier.weight(1f)
 
-        if (days.isEmpty()) {
-            for (i in 0..6) {
-                DayItem(
-                    day = Day(
-                        date = date.plus(i, DateTimeUnit.DAY)
-                    ),
-                    modifier = modifier,
-                    boardId = boardId,
-                    insertDay = insertDay,
-                    deleteDay = deleteDay
-                )
-                Log.d("WeekItem", "№${i+1} Empty day created")
-            }
-        } else {
-            for (i in 0..6) {
-                val filteredList = days.filter { it.date == date.plus(i, DateTimeUnit.DAY) }
-                if (filteredList.size == 1) {
-                    val day = filteredList[0]
-                    DayItem(
-                        day = day,
-                        modifier = modifier,
-                        boardId = boardId,
-                        insertDay = insertDay,
-                        deleteDay = deleteDay
-                    )
-                    Log.d("WeekItem", "№${i+1} Saved day created")
-                } else {
-                    DayItem(day = Day(
-                            date = date.plus(i, DateTimeUnit.DAY)
-                        ),
-                        modifier = modifier,
-                        boardId = boardId,
-                        insertDay = insertDay,
-                        deleteDay = deleteDay
-                    )
-                    Log.d("WeekItem", "№${i+1} Empty day from saved created")
-                }
-            }
+        for (i in 0..6) {
+            DayItem(
+                day = dayState.value[i],
+                modifier = modifier,
+                insertDay = insertDay,
+                deleteDay = deleteDay
+            )
         }
     }
 }

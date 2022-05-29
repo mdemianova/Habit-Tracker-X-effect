@@ -19,7 +19,8 @@ fun Day.setActualStatus(currentDay: LocalDate = CurrentDate.now) {
 }
 
 /**
- * By default, today is EMPTY for changing status.
+ * By default, non-saved days are EMPTY.
+ * Today is AVAILABLE.
  * Future days are UNAVAILABLE.
  * COMPLETED days are saved and loaded from database.
  * Days in past that are not completed, are MISSED.
