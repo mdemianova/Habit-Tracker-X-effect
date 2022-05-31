@@ -70,7 +70,7 @@ fun TitleContent(
                             board = board,
                             weeks = boardWeeks,
                             days = boardDays,
-                            onItemClick = {navController.navigate(route = HabitScreens.DetailsScreen.name + "/${it.id!!}")},
+                            onItemClick = {navController.navigate(route = HabitScreens.DetailsScreen.name + "/$it")},
                             insertDay = insertDay,
                             deleteDay = deleteDay
                         )

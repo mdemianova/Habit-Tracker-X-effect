@@ -1,15 +1,16 @@
 package com.ignation.thexeffect.components
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ignation.thexeffect.domain.models.*
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.plus
+import com.ignation.thexeffect.ui.theme.CardBorder
 
 @Composable
 fun BoardFull(
@@ -19,33 +20,38 @@ fun BoardFull(
     insertDay: (Day) -> Unit,
     deleteDay: (Day) -> Unit
 ) {
-
     val boardDays = days.filter { it.boardId == board.id }
 
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(topEnd = 12.dp, topStart = 12.dp),
+        border = BorderStroke(2.dp, CardBorder)
     ) {
-        Text(
-            text = board.title,
-            modifier = Modifier.padding(start = 14.dp)
-        )
-        var startDate = board.startDate
+        Column {
+            BoardTitle(
+                titleText = board.title,
+                boardType = board.isCreateHabit,
+                onItemClick = {}
+            )
 
-        for (i in 1..7) {
-            WeekItem(
-                weekIndex = i,
-                firstDayOfWeek = startDate,
-                days = boardDays,
-                boardId = board.id!!,
+            BoardBodyFull(
+                boardId = board.id,
+                boardStartDate = board.startDate,
+                boardDays = boardDays,
                 insertDay = insertDay,
                 deleteDay = deleteDay
             )
-            startDate = startDate.plus(7, DateTimeUnit.DAY)
-        }
-        val weekIndex = getCurrentWeekIndex(board)
-        val currentWeek = getCurrentWeek(weeks, weekIndex)
-        if (currentWeek != null) {
-            Text(text = currentWeek.comment)
+
+            val weekIndex = getCurrentWeekIndex(board)
+            val currentWeek = getCurrentWeek(weeks, weekIndex)
+            BoardComment(week = currentWeek)
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewBoardFull() {
+    BoardFull(board = testBoard, weeks = listOf(), days = listOf(), insertDay = {}, deleteDay = {})
 }
