@@ -39,10 +39,13 @@ fun HabitNavigation() {
             )
         }
 
-        composable(HabitScreens.CreateHabitScreen.name) {
+        composable(HabitScreens.CreateHabitScreen.name+"/{cardId}",
+            arguments = listOf(navArgument(name = "cardId") {type = NavType.LongType})
+            ) { backStackEntry ->
             CreateHabitScreen(
                 navController = navController,
-                habitViewModel = habitViewModel
+                habitViewModel = habitViewModel,
+                cardId = backStackEntry.arguments?.getLong("cardId")
             )
         }
 
@@ -56,7 +59,8 @@ fun HabitNavigation() {
                 weeks = weeksState,
                 days = daysState,
                 insertDay = habitViewModel::insertDay,
-                deleteDay = habitViewModel::deleteDay
+                deleteDay = habitViewModel::deleteDay,
+                deleteCard = habitViewModel::deleteHabit
             )
         }
     }

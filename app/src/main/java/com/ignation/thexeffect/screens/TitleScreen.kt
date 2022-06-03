@@ -35,7 +35,7 @@ fun TitleScreen(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                navController.navigate(route = HabitScreens.CreateHabitScreen.name)
+                navController.navigate(route = HabitScreens.CreateHabitScreen.name + "/-1")
             }) {
                 Icon(Icons.Default.Add, contentDescription = "Add new Card")
             }

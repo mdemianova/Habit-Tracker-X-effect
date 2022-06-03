@@ -34,6 +34,8 @@ class HabitViewModel @Inject constructor(
             habitRepositoryImpl.getActiveHabits().distinctUntilChanged().collect {
                 if (it.isNotEmpty()) {
                     _activeBoards.value = it
+                } else {
+                    _activeBoards.value = emptyList()
                 }
             }
         }

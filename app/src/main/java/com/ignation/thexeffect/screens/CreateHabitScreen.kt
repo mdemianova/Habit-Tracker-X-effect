@@ -41,7 +41,11 @@ import kotlinx.datetime.LocalDate
 import java.util.*
 
 @Composable
-fun CreateHabitScreen(navController: NavController, habitViewModel: HabitViewModel) {
+fun CreateHabitScreen(
+    navController: NavController,
+    habitViewModel: HabitViewModel,
+    cardId: Long? = -1L
+) {
 
     Scaffold(
         topBar = {
@@ -63,14 +67,18 @@ fun CreateHabitScreen(navController: NavController, habitViewModel: HabitViewMod
             modifier = Modifier
                 .padding(8.dp),
         ) {
-            CreateHabitContent(navController, habitViewModel)
+            CreateHabitContent(navController, habitViewModel, cardId)
         }
     }
 }
 
 
 @Composable
-fun CreateHabitContent(navController: NavController, habitViewModel: HabitViewModel) {
+fun CreateHabitContent(
+    navController: NavController,
+    habitViewModel: HabitViewModel,
+    cardId: Long?
+) {
 
     val title = remember {
         mutableStateOf("")
