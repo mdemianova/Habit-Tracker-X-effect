@@ -14,6 +14,9 @@ interface HabitDao {
     @Query("SELECT * FROM board_database WHERE isActive = 1")
     fun getActiveBoards(): Flow<List<BoardEntity>>
 
+    @Query("SELECT * FROM board_database WHERE id = :id")
+    fun getBoardById(id: Long): BoardEntity
+
     @Query("SELECT * FROM week_database")
     fun getAllWeeks(): Flow<List<WeekEntity>>
 
@@ -28,13 +31,13 @@ interface HabitDao {
     suspend fun insertBoard(boardEntity: BoardEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertWeeks(weeks: List<WeekEntity>?)
-
-    @Update
-    suspend fun updateWeek(week: WeekEntity)
+    suspend fun insertWeeks(weeks: List<WeekEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDay(day: DayEntity)
+
+    @Update
+    suspend fun updateBoard(board: BoardEntity)
 
     // Deleting
     @Transaction
@@ -49,6 +52,9 @@ interface HabitDao {
 
     @Query("DELETE FROM week_database WHERE boardId = :id")
     suspend fun deleteWeeks(id: Long)
+
+    @Query("DELETE FROM week_database WHERE boardId = :boardId AND `index` = :index")
+    suspend fun deleteWeek(boardId: Long, index: Int)
 
     @Query("DELETE FROM day_database WHERE boardId = :id")
     suspend fun deleteDays(id: Long)

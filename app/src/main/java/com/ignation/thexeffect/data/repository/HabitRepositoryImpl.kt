@@ -22,6 +22,10 @@ class HabitRepositoryImpl @Inject constructor(
         return dao.getActiveBoards().map { it.toBoardList() }
     }
 
+    override fun getBoardById(id: Long): Board {
+        return dao.getBoardById(id).toBoard()
+    }
+
     override fun getAllWeeks(): Flow<List<Week>> {
         return dao.getAllWeeks().map { it.toWeekList() }
     }
@@ -30,9 +34,9 @@ class HabitRepositoryImpl @Inject constructor(
         return dao.getAllDays().map { it.toDayList() }
     }
 
-    override suspend fun createHabit(board: Board, weeks: List<Week>?) {
+    override suspend fun createHabit(board: Board, weeks: List<Week>) {
         val id = dao.insertBoard(board.toBoardEntity())
-        if (weeks != null) {
+        if (weeks.isNotEmpty()) {
             dao.insertWeeks(weeks.toWeekEntityList(id))
         }
     }
@@ -47,5 +51,11 @@ class HabitRepositoryImpl @Inject constructor(
 
     override suspend fun deleteDay(day: Day) {
         db.habitDao().deleteDay(day.toDayEntity().boardId, day.toDayEntity().date)
+    }
+
+    override suspend fun updateBoard(board: Board, weeks: List<Week>) {
+        db.habitDao().updateBoard(board.toBoardEntity())
+        db.habitDao().deleteWeeks(board.id!!)
+        db.habitDao().insertWeeks(weeks.toWeekEntityList(board.id))
     }
 }

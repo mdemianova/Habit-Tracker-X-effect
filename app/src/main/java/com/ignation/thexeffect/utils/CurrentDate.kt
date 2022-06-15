@@ -1,4 +1,4 @@
-package com.ignation.thexeffect.domain.models
+package com.ignation.thexeffect.utils
 
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone

@@ -16,10 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ignation.thexeffect.components.BoardFull
 import com.ignation.thexeffect.domain.models.Board
-import com.ignation.thexeffect.domain.models.CurrentDate
 import com.ignation.thexeffect.domain.models.Day
 import com.ignation.thexeffect.domain.models.Week
 import com.ignation.thexeffect.navigation.HabitScreens
+import com.ignation.thexeffect.utils.CurrentDate
 
 @Composable
 fun DetailsScreen(
@@ -38,7 +38,13 @@ fun DetailsScreen(
         if (filteredBoards.isNotEmpty()) {
             filteredBoards[0]
         } else {
-            Board(id = -1, title = "", isActive = false, startDate = CurrentDate.now, isCreateHabit = true)
+            Board(
+                id = -1,
+                title = "",
+                isActive = false,
+                startDate = CurrentDate.now,
+                isCreateHabit = true
+            )
         }
     val detailsWeek = weeks.value.filter { it.boardId == cardId }
     val detailsDay = days.value.filter { it.boardId == cardId }
@@ -78,7 +84,9 @@ fun DetailsScreen(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Button(
-                        onClick = {},
+                        onClick = {
+                            navController.navigate(HabitScreens.CreateHabitScreen.name + "/$cardId")
+                        },
                         modifier = Modifier.padding(end = 20.dp)
                     ) {
                         Icon(Icons.Default.Edit, contentDescription = "Edit")

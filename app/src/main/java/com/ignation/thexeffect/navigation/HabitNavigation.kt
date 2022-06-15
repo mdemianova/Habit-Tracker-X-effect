@@ -45,7 +45,9 @@ fun HabitNavigation() {
             CreateHabitScreen(
                 navController = navController,
                 habitViewModel = habitViewModel,
-                cardId = backStackEntry.arguments?.getLong("cardId")
+                cardId = backStackEntry.arguments?.getLong("cardId")!!,
+                boards = boardsState,
+                weeks = weeksState,
             )
         }
 

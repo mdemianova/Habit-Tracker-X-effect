@@ -3,9 +3,17 @@ package com.ignation.thexeffect.data.mapper
 import com.ignation.thexeffect.data.local.entities.WeekEntity
 import com.ignation.thexeffect.domain.models.Week
 
-fun Week.toWeekEntity(boardId: Long): WeekEntity {
+fun Week.toWeekEntityNewWeek(boardId: Long): WeekEntity {
     return WeekEntity(
         boardId = boardId,
+        index = this.index,
+        comment = this.comment
+    )
+}
+
+fun Week.toWeekEntityExistingWeek(): WeekEntity {
+    return WeekEntity(
+        boardId = boardId!!,
         index = this.index,
         comment = this.comment
     )
@@ -21,7 +29,7 @@ fun WeekEntity.toWeek(): Week {
 
 fun List<Week>.toWeekEntityList(boardId: Long): List<WeekEntity> {
     return map {
-        it.toWeekEntity(boardId)
+        it.toWeekEntityNewWeek(boardId)
     }
 }
 

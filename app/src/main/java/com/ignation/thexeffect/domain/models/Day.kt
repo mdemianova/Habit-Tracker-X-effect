@@ -1,5 +1,6 @@
 package com.ignation.thexeffect.domain.models
 
+import com.ignation.thexeffect.utils.CurrentDate
 import kotlinx.datetime.LocalDate
 
 data class Day(

@@ -9,15 +9,19 @@ interface HabitRepository {
 
     fun getActiveHabits(): Flow<List<Board>>
 
+    fun getBoardById(id: Long): Board
+
     fun getAllWeeks(): Flow<List<Week>>
 
     fun getAllDays(): Flow<List<Day>>
 
-    suspend fun createHabit(board: Board, weeks: List<Week>?)
+    suspend fun createHabit(board: Board, weeks: List<Week>)
 
     suspend fun deleteHabit(board: Board)
 
     suspend fun insertDay(day: Day)
 
     suspend fun deleteDay(day: Day)
+
+    suspend fun updateBoard(board: Board, weeks: List<Week>)
 }

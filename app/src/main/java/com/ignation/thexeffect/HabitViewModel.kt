@@ -65,7 +65,7 @@ class HabitViewModel @Inject constructor(
         setDays()
     }
 
-    fun createHabit(board: Board, weeks: List<Week>?) = viewModelScope.launch {
+    fun createHabit(board: Board, weeks: List<Week>) = viewModelScope.launch {
         habitRepositoryImpl.createHabit(board, weeks)
     }
 
@@ -79,5 +79,11 @@ class HabitViewModel @Inject constructor(
 
     fun deleteDay(day: Day) = viewModelScope.launch {
         habitRepositoryImpl.deleteDay(day)
+    }
+
+    fun updateBoard(board: Board, weeks: List<Week>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            habitRepositoryImpl.updateBoard(board, weeks)
+        }
     }
 }
