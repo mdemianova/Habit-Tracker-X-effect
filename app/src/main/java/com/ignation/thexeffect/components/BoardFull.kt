@@ -32,7 +32,7 @@ fun BoardFull(
             BoardTitle(
                 titleText = board.title,
                 boardType = board.isCreateHabit,
-                onItemClick = {}
+                clickable = false
             )
 
             BoardBodyFull(

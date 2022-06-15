@@ -25,11 +25,12 @@ fun BoardTitle(
     titleText: String,
     boardType: Boolean,
     boardId: Long? = null,
-    onItemClick: (Long) -> Unit
+    clickable: Boolean,
+    onItemClick: (Long) -> Unit = {}
 ) {
     Surface(
         modifier = Modifier
-            .clickable { onItemClick(boardId!!) }
+            .clickable(clickable) { onItemClick(boardId!!) }
             .fillMaxWidth(),
         color = if (boardType) CreateColor else BreakColor,
         border = BorderStroke(2.dp, CardBorder)

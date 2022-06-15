@@ -43,6 +43,7 @@ fun BoardSmall(
                 titleText = board.title,
                 boardType = board.isCreateHabit,
                 boardId = board.id,
+                clickable = true,
                 onItemClick = onItemClick
             )
 

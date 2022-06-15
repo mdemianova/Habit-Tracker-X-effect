@@ -42,20 +42,20 @@ class HabitRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteHabit(board: Board) {
-        db.habitDao().deleteHabit(board.toBoardEntity())
+        dao.deleteHabit(board.toBoardEntity())
     }
 
     override suspend fun insertDay(day: Day) {
-        db.habitDao().insertDay(day.toDayEntity())
+        dao.insertDay(day.toDayEntity())
     }
 
     override suspend fun deleteDay(day: Day) {
-        db.habitDao().deleteDay(day.toDayEntity().boardId, day.toDayEntity().date)
+        dao.deleteDay(day.toDayEntity().boardId, day.toDayEntity().date)
     }
 
     override suspend fun updateBoard(board: Board, weeks: List<Week>) {
-        db.habitDao().updateBoard(board.toBoardEntity())
-        db.habitDao().deleteWeeks(board.id!!)
-        db.habitDao().insertWeeks(weeks.toWeekEntityList(board.id))
+        dao.updateBoard(board.toBoardEntity())
+        dao.deleteWeeks(board.id!!)
+        dao.insertWeeks(weeks.toWeekEntityList(board.id))
     }
 }
