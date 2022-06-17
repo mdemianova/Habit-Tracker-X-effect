@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.ignation.thexeffect.HabitViewModel
+import com.ignation.thexeffect.screens.HabitViewModel
 import com.ignation.thexeffect.screens.CreateHabitScreen
 import com.ignation.thexeffect.screens.DetailsScreen
 import com.ignation.thexeffect.screens.TitleScreen

@@ -27,9 +27,9 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.ignation.thexeffect.HabitViewModel
 import com.ignation.thexeffect.R
 import com.ignation.thexeffect.domain.models.Board
 import com.ignation.thexeffect.domain.models.Week
@@ -64,7 +64,7 @@ fun CreateHabitScreen(
     ) {
         Surface(
             modifier = Modifier
-                .padding(8.dp),
+                .padding(8.dp)
         ) {
             CreateHabitContent(navController, habitViewModel, cardId, boards, weeks)
         }
@@ -107,6 +107,8 @@ fun CreateHabitContent(
         }
     }
 
+    val scrollState = rememberScrollState()
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -117,7 +119,7 @@ fun CreateHabitContent(
         Column(
             modifier = Modifier
                 .padding(10.dp)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(scrollState)
         ) {
             ChooseType(typeState)
             SetTitle(titleState = title)
@@ -302,41 +304,42 @@ fun WeekDescription(
                 InputWeekField(i, weeksList, controller, focus, cardId)
             }
         }
+    }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            OutlinedButton(
-                onClick = {
-                    if (weekFieldsCountState.value > 0) {
-                        weeksList.remove(weekFieldsCountState.value)
-                        weekFieldsCountState.value -= 1
-                    } else {
-                        weekFieldsCountState.value = 0
-                    }
-                },
-                modifier = Modifier
-                    .padding(end = 20.dp)
-            ) {
-                Icon(Icons.Default.Clear, contentDescription = "Delete Week")
-                Text(text = "Delete")
-            }
-            OutlinedButton(
-                onClick = {
-                    if (weekFieldsCountState.value < 7) {
-                        weekFieldsCountState.value += 1
-                    } else {
-                        weekFieldsCountState.value = 7
-                    }
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        OutlinedButton(
+            onClick = {
+                if (weekFieldsCountState.value > 0) {
+                    weeksList.remove(weekFieldsCountState.value)
+                    weekFieldsCountState.value -= 1
+                } else {
+                    weekFieldsCountState.value = 0
                 }
-            ) {
-                Icon(Icons.Default.Add, contentDescription = "Add week")
-                Text(text = "Add")
+            },
+            modifier = Modifier
+                .padding(end = 20.dp)
+        ) {
+            Icon(Icons.Default.Clear, contentDescription = "Delete Week")
+            Text(text = "Delete")
+        }
+        OutlinedButton(
+            onClick = {
+                if (weekFieldsCountState.value < 7) {
+                    weekFieldsCountState.value += 1
+                } else {
+                    weekFieldsCountState.value = 7
+                }
             }
+        ) {
+            Icon(Icons.Default.Add, contentDescription = "Add week")
+            Text(text = "Add")
         }
     }
 }
+
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -345,7 +348,7 @@ fun InputWeekField(
     weeksList: MutableMap<Int, Week>,
     controller: SoftwareKeyboardController?,
     focus: FocusManager,
-    cardId: Long,
+    cardId: Long
 ) {
     val boardId = if (cardId > -1) cardId else null
     val text = remember {
@@ -358,7 +361,8 @@ fun InputWeekField(
         value = text.value,
         onValueChange = {
             text.value = it
-            weeksList[weekNumber] = Week(boardId = boardId, index = weekNumber, comment = text.value)
+            weeksList[weekNumber] =
+                Week(boardId = boardId, index = weekNumber, comment = text.value)
         },
         modifier = Modifier.fillMaxWidth(),
         label = { Text(text = "Week №$weekNumber") },
@@ -378,8 +382,8 @@ fun InputWeekField(
     )
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun Preview() {
-//    WeekDescription(weeksList = mutableMapOf(), 1L)
-//}
+@Preview(showBackground = true)
+@Composable
+fun Preview() {
+    WeekDescription(weeksList = mutableMapOf(), 1L)
+}

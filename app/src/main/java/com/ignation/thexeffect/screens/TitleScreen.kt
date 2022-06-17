@@ -10,7 +10,9 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ignation.thexeffect.components.BoardSmall
 import com.ignation.thexeffect.domain.models.Board
@@ -28,11 +30,6 @@ fun TitleScreen(
     deleteDay: (Day) -> Unit
 ) {
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Title") }
-            )
-        },
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 navController.navigate(route = HabitScreens.CreateHabitScreen.name + "/-1")
@@ -60,9 +57,16 @@ fun TitleContent(
     ) {
         Column {
             if (boards.value.isEmpty()) {
-                Text(text = "Create a new card by pressing +")
+                Text(
+                    text = "Create a new card by pressing +",
+                    modifier = Modifier.padding(top = 8.dp),
+                    fontSize = 18.sp,
+                    fontFamily = FontFamily.Default
+                )
             } else {
-                LazyColumn {
+                LazyColumn(
+                    modifier = Modifier.padding(top = 8.dp)
+                ) {
                     items(items = boards.value) { board ->
                         val boardWeeks = weeks.value.filter { it.boardId == board.id }
                         val boardDays = days.value.filter { it.boardId == board.id }

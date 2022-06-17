@@ -25,7 +25,7 @@ fun BoardFull(
     Surface(
         modifier = Modifier
             .fillMaxWidth(),
-        shape = RoundedCornerShape(topEnd = 12.dp, topStart = 12.dp),
+        shape = RoundedCornerShape(12.dp),
         border = BorderStroke(2.dp, CardBorder)
     ) {
         Column {

@@ -1,6 +1,6 @@
 package com.ignation.thexeffect.data.repository
 
-import com.ignation.thexeffect.data.local.HabitDatabase
+import com.ignation.thexeffect.data.local.HabitDao
 import com.ignation.thexeffect.data.mapper.*
 import com.ignation.thexeffect.domain.models.Board
 import com.ignation.thexeffect.domain.models.Day
@@ -13,17 +13,11 @@ import javax.inject.Singleton
 
 @Singleton
 class HabitRepositoryImpl @Inject constructor(
-    private val db: HabitDatabase
+    private val dao: HabitDao
 ) : HabitRepository {
-
-    private val dao = db.habitDao()
 
     override fun getActiveHabits(): Flow<List<Board>> {
         return dao.getActiveBoards().map { it.toBoardList() }
-    }
-
-    override fun getBoardById(id: Long): Board {
-        return dao.getBoardById(id).toBoard()
     }
 
     override fun getAllWeeks(): Flow<List<Week>> {

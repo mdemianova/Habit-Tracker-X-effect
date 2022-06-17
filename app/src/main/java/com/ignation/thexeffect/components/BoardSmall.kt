@@ -27,12 +27,11 @@ fun BoardSmall(
     val weekIndex = getCurrentWeekIndex(board)
     val currentWeek = getCurrentWeek(weeks, weekIndex)
 
-
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 5.dp),
-        shape = RoundedCornerShape(topEnd = 12.dp, topStart = 12.dp),
+        shape = RoundedCornerShape(12.dp),
         border = BorderStroke(2.dp, CardBorder)
     ) {
         Column(
@@ -65,12 +64,18 @@ val testBoard = Board(
     id = 2,
     title = "Become a superhero",
     isActive = true,
-    startDate = LocalDate(2022, 5, 22),
+    startDate = LocalDate(2022, 6, 15),
     isCreateHabit = true
+)
+
+val testWeeks = listOf(
+    Week(2, 1, "1"),
+    Week(2, 2, "2"),
+    Week(2, 3, "3"),
 )
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewBoardSmall() {
-    BoardSmall(testBoard, listOf(), listOf(), {}, {}, {})
+    BoardSmall(board = testBoard, weeks = testWeeks, listOf(), {}, {}, {})
 }

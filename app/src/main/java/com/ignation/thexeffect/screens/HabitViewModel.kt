@@ -1,4 +1,4 @@
-package com.ignation.thexeffect
+package com.ignation.thexeffect.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

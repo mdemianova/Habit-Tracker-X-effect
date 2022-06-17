@@ -11,14 +11,6 @@ fun Week.toWeekEntityNewWeek(boardId: Long): WeekEntity {
     )
 }
 
-fun Week.toWeekEntityExistingWeek(): WeekEntity {
-    return WeekEntity(
-        boardId = boardId!!,
-        index = this.index,
-        comment = this.comment
-    )
-}
-
 fun WeekEntity.toWeek(): Week {
     return Week(
         boardId = this.boardId,

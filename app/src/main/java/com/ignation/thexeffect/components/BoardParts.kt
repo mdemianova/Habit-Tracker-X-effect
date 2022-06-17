@@ -10,7 +10,9 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ignation.thexeffect.domain.models.Day
 import com.ignation.thexeffect.domain.models.Week
 import com.ignation.thexeffect.ui.theme.BreakColor
@@ -35,11 +37,7 @@ fun BoardTitle(
         color = if (boardType) CreateColor else BreakColor,
         border = BorderStroke(2.dp, CardBorder)
     ) {
-        Text(
-            text = titleText,
-            modifier = Modifier
-                .padding(top = 5.dp, start = 5.dp, bottom = 4.dp)
-        )
+        CardTextLabel(text = titleText)
     }
 }
 
@@ -51,11 +49,23 @@ fun BoardComment(
         modifier = Modifier.fillMaxWidth()
     ) {
         if (week != null) {
-            Text(
-                text = week.comment
-            )
+            CardTextLabel(text = week.comment, fontSize = 15.sp)
         }
     }
+}
+
+@Composable
+fun CardTextLabel(
+    text: String,
+    fontSize: TextUnit = 18.sp
+) {
+    Text(
+        text = text,
+        modifier = Modifier
+            .padding(horizontal = 8.dp)
+            .padding(bottom = 4.dp),
+        fontSize = fontSize
+    )
 }
 
 @Composable

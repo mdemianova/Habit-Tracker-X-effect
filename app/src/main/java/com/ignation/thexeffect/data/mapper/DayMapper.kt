@@ -19,12 +19,6 @@ fun DayEntity.toDay(): Day {
     )
 }
 
-fun List<Day>.toDayEntityList(): List<DayEntity> {
-    return map {
-        it.toDayEntity()
-    }
-}
-
 fun List<DayEntity>.toDayList(): List<Day> {
     return map {
         it.toDay()
