@@ -37,7 +37,7 @@ fun BoardTitle(
         color = if (boardType) CreateColor else BreakColor,
         border = BorderStroke(2.dp, CardBorder)
     ) {
-        CardTextLabel(text = titleText)
+        CardTextLabel(text = titleText, modifier = Modifier.padding(top = 5.dp))
     }
 }
 
@@ -56,14 +56,16 @@ fun BoardComment(
 
 @Composable
 fun CardTextLabel(
+    modifier: Modifier = Modifier,
     text: String,
     fontSize: TextUnit = 18.sp
+
 ) {
     Text(
         text = text,
         modifier = Modifier
             .padding(horizontal = 8.dp)
-            .padding(bottom = 4.dp),
+            .padding(bottom = 4.dp).then(modifier),
         fontSize = fontSize
     )
 }

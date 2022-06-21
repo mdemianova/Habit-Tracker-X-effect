@@ -9,9 +9,10 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
+import com.ignation.thexeffect.ui.theme.Marks
 
 fun DrawScope.drawX(
-    componentColor: Color = Color.Black
+    componentColor: Color = Marks
 ) {
     val width = size.width
     val height = size.height
@@ -72,7 +73,7 @@ fun DrawScope.drawX(
 
 fun DrawScope.drawO() {
     drawCircle(
-        color = Color.Gray,
+        color = Marks,
         style = Stroke(width = size.width / 12f),
         radius = size.width / 2.5f,
     )
@@ -87,7 +88,7 @@ fun DrawScope.drawDateLabel(dateText: String) {
             Paint().apply {
                 isAntiAlias = true
                 textSize = 40f
-                color = (0xFF0e00a6).toInt()
+                color = (0xFF000000).toInt()
                 textAlign = Paint.Align.LEFT
                 typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL)
             }
