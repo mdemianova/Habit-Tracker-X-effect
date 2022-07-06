@@ -2,8 +2,8 @@ package com.ignation.thexeffect.screens
 
 import android.app.DatePickerDialog
 import android.widget.DatePicker
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -112,9 +112,7 @@ fun CreateHabitContent(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(),
-        shape = RoundedCornerShape(8.dp),
-        border = BorderStroke(1.dp, Color.LightGray)
+            .fillMaxHeight()
     ) {
         Column(
             modifier = Modifier
@@ -207,7 +205,8 @@ fun SetTitle(
                     focus.clearFocus()
                     controller?.hide()
                 }
-            )
+            ),
+            shape = RoundedCornerShape(16.dp)
         )
     }
 }
@@ -269,11 +268,28 @@ fun ChooseType(typeState: MutableState<Boolean>) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         RadioButton(selected = typeState.value, onClick = { typeState.value = true })
-        Text(text = "Create Habit")
+        Text(
+            text = "Create Habit",
+            modifier = Modifier.clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) {
+                typeState.value = true
+            }
+        )
+
         Spacer(modifier = Modifier.width(10.dp))
 
         RadioButton(selected = !typeState.value, onClick = { typeState.value = false })
-        Text(text = "Break Habit")
+        Text(
+            text = "Break Habit",
+            modifier = Modifier.clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) {
+                typeState.value = false
+            }
+        )
     }
 }
 

@@ -2,6 +2,6 @@
 <resources>
 
     <style name="Theme.TheXEffect" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/purple_700</item>
+        <item name="android:statusBarColor">#D06D68</item>
     </style>
 </resources>
