@@ -26,14 +26,17 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.ignation.thexeffect.R
 import com.ignation.thexeffect.domain.models.Board
 import com.ignation.thexeffect.domain.models.Week
 import com.ignation.thexeffect.navigation.HabitScreens
+import com.ignation.thexeffect.ui.theme.UnavailableDay
 import kotlinx.datetime.LocalDate
 import java.util.*
 
@@ -116,19 +119,21 @@ fun CreateHabitContent(
     ) {
         Column(
             modifier = Modifier
-                .padding(10.dp)
+                .padding(horizontal = 8.dp)
                 .verticalScroll(scrollState)
         ) {
+            SetTitle(title)
+            Spacer(modifier = Modifier.height(20.dp))
             ChooseType(typeState)
-            SetTitle(titleState = title)
             if (cardId == -1L) {
+                Spacer(modifier = Modifier.height(20.dp))
                 CreateDatePicker() { year, month, day ->
                     startDate.value.set(year, month, day)
                 }
             }
+            Spacer(modifier = Modifier.height(20.dp))
             WeekDescription(weeksList, cardId)
-            Spacer(modifier = Modifier.height(30.dp))
-
+            Spacer(modifier = Modifier.height(20.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -234,28 +239,90 @@ fun CreateDatePicker(
         }, myYear, myMonth, myDay
     )
 
-    Column(
-        modifier = Modifier.padding(vertical = 12.dp)
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        color = UnavailableDay
     ) {
-        Text(text = "When do you want to start?")
+        Column(
+            modifier = Modifier.padding(12.dp)
+        ) {
+            Text(
+                text = "When do you want to start?",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.W500
+            )
 
-        Row {
-            Button(
-                onClick = { dialog.show() }
-            ) {
-                Row {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_baseline_calendar_month_24),
-                        contentDescription = "Calendar image"
+            Spacer(modifier = Modifier.height(8.dp))
+
+            if (myDate.value.isEmpty()) {
+                Button(
+                    onClick = { dialog.show() },
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_calendar_month_24),
+                            contentDescription = "Calendar image"
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(text = "Set a date", color = Color.White)
+                    }
+                }
+            } else {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = myDate.value,
+                        style = MaterialTheme.typography.h6
                     )
-
-                    Text(text = "Choose date", color = Color.White)
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Button(onClick = { dialog.show() }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_calendar_month_24),
+                            contentDescription = "Calendar image"
+                        )
+                    }
                 }
             }
-            if (myDate.value.isNotEmpty()) {
-                Text(
-                    text = "Starting at: ${myDate.value}",
-                    modifier = Modifier.align(Alignment.CenterVertically)
+        }
+    }
+}
+
+@Composable
+fun ChooseType(
+    typeState: MutableState<Boolean>
+) {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        color = UnavailableDay
+    ) {
+        Column(
+            modifier = Modifier.padding(start = 12.dp, top = 12.dp, end = 12.dp)
+        ) {
+            Text(
+                text = "Do you want to create a new habit or break an old one?",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.W500
+            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioBtnWithLabel(
+                    text = "Create Habit",
+                    selectedState = typeState.value,
+                    onClick = { typeState.value = true }
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                RadioBtnWithLabel(
+                    text = "Break Habit",
+                    selectedState = !typeState.value,
+                    onClick = { typeState.value = false }
                 )
             }
         }
@@ -263,34 +330,23 @@ fun CreateDatePicker(
 }
 
 @Composable
-fun ChooseType(typeState: MutableState<Boolean>) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        RadioButton(selected = typeState.value, onClick = { typeState.value = true })
-        Text(
-            text = "Create Habit",
-            modifier = Modifier.clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
-            ) {
-                typeState.value = true
-            }
+fun RadioBtnWithLabel(
+    text: String,
+    selectedState: Boolean,
+    onClick: () -> Unit
+) {
+    RadioButton(
+        selected = selectedState,
+        onClick = onClick
+    )
+    Text(
+        text = text,
+        modifier = Modifier.clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null,
+            onClick = onClick
         )
-
-        Spacer(modifier = Modifier.width(10.dp))
-
-        RadioButton(selected = !typeState.value, onClick = { typeState.value = false })
-        Text(
-            text = "Break Habit",
-            modifier = Modifier.clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
-            ) {
-                typeState.value = false
-            }
-        )
-    }
+    )
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -306,52 +362,60 @@ fun WeekDescription(
     val controller = LocalSoftwareKeyboardController.current
     val focus = LocalFocusManager.current
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-
-    ) {
-        Text(text = "You can add description for each week")
-
-        for (i in 1..weekFieldsCountState.value) {
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                InputWeekField(i, weeksList, controller, focus, cardId)
-            }
-        }
-    }
-
-    Row(
+    Surface(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
+        shape = RoundedCornerShape(16.dp),
+        color = UnavailableDay
     ) {
-        OutlinedButton(
-            onClick = {
-                if (weekFieldsCountState.value > 0) {
-                    weeksList.remove(weekFieldsCountState.value)
-                    weekFieldsCountState.value -= 1
-                } else {
-                    weekFieldsCountState.value = 0
-                }
-            },
-            modifier = Modifier
-                .padding(end = 20.dp)
+        Column(
+            modifier = Modifier.padding(12.dp)
         ) {
-            Icon(Icons.Default.Clear, contentDescription = "Delete Week")
-            Text(text = "Delete")
-        }
-        OutlinedButton(
-            onClick = {
-                if (weekFieldsCountState.value < 7) {
-                    weekFieldsCountState.value += 1
-                } else {
-                    weekFieldsCountState.value = 7
+            Text(
+                text = "You can add description for each week",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.W500
+            )
+
+            for (i in 1..weekFieldsCountState.value) {
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    InputWeekField(i, weeksList, controller, focus, cardId)
                 }
             }
-        ) {
-            Icon(Icons.Default.Add, contentDescription = "Add week")
-            Text(text = "Add")
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                OutlinedButton(
+                    onClick = {
+                        if (weekFieldsCountState.value > 0) {
+                            weeksList.remove(weekFieldsCountState.value)
+                            weekFieldsCountState.value -= 1
+                        } else {
+                            weekFieldsCountState.value = 0
+                        }
+                    },
+                    modifier = Modifier
+                        .padding(end = 20.dp)
+                ) {
+                    Icon(Icons.Default.Clear, contentDescription = "Delete Week")
+                    Text(text = "Delete")
+                }
+                OutlinedButton(
+                    onClick = {
+                        if (weekFieldsCountState.value < 7) {
+                            weekFieldsCountState.value += 1
+                        } else {
+                            weekFieldsCountState.value = 7
+                        }
+                    }
+                ) {
+                    Icon(Icons.Default.Add, contentDescription = "Add week")
+                    Text(text = "Add")
+                }
+            }
         }
     }
 }
@@ -401,5 +465,25 @@ fun InputWeekField(
 @Preview(showBackground = true)
 @Composable
 fun Preview() {
-    WeekDescription(weeksList = mutableMapOf(), 1L)
+    ChooseType(
+        typeState = remember {
+            mutableStateOf(true)
+        })
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewDate() {
+    CreateDatePicker(
+        calendarSet = { _, _, _ -> }
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewWeek() {
+    WeekDescription(
+        weeksList = mutableMapOf(),
+        cardId = -1
+    )
 }
