@@ -5,12 +5,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ignation.thexeffect.domain.models.Day
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
@@ -58,10 +57,6 @@ fun WeekItem(
         }
     }
 
-    val dayState = remember {
-        mutableStateOf(listOfDays)
-    }
-
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -69,13 +64,14 @@ fun WeekItem(
         Text(
             text = "$weekIndex",
             modifier = Modifier
-                .align(Alignment.CenterVertically)
+                .align(Alignment.CenterVertically),
+            fontSize = 16.sp,
         )
         val modifier = Modifier.weight(1f)
 
         for (i in 0..6) {
             DayItem(
-                day = dayState.value[i],
+                day = listOfDays[i],
                 modifier = modifier,
                 insertDay = insertDay,
                 deleteDay = deleteDay

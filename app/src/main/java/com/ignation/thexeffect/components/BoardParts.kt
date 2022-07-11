@@ -46,7 +46,7 @@ fun BoardComment(
     week: Week?
 ) {
     Surface(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().padding(bottom = 2.dp)
     ) {
         if (week != null) {
             CardTextLabel(text = week.comment, fontSize = 15.sp)
@@ -59,7 +59,6 @@ fun CardTextLabel(
     modifier: Modifier = Modifier,
     text: String,
     fontSize: TextUnit = 18.sp
-
 ) {
     Text(
         text = text,
@@ -116,7 +115,6 @@ fun BoardBodyFull(
     insertDay: (Day) -> Unit,
     deleteDay: (Day) -> Unit
 ) {
-
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier

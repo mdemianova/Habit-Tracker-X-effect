@@ -4,7 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -28,9 +27,7 @@ fun BoardSmall(
     val currentWeek = getCurrentWeek(weeks, weekIndex)
 
     Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 5.dp),
+        modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
         border = BorderStroke(2.dp, CardBorder)
     ) {
@@ -54,7 +51,6 @@ fun BoardSmall(
                 insertDay = insertDay,
                 deleteDay = deleteDay
             )
-
             BoardComment(week = currentWeek)
         }
     }
@@ -64,7 +60,7 @@ val testBoard = Board(
     id = 2,
     title = "Become a superhero",
     isActive = true,
-    startDate = LocalDate(2022, 6, 15),
+    startDate = LocalDate(2022, 7, 3),
     isCreateHabit = true
 )
 

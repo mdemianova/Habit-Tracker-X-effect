@@ -1,10 +1,7 @@
 package com.ignation.thexeffect.screens
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -59,7 +56,7 @@ fun TitleContent(
 ) {
     Surface(
         modifier = Modifier
-            .padding(horizontal = 8.dp)
+            .padding(8.dp)
     ) {
         if (boards.value.isEmpty()) {
             Box(
@@ -82,7 +79,7 @@ fun TitleContent(
         } else {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 LazyColumn(
-                    modifier = Modifier.padding(top = 8.dp)
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     items(items = boards.value) { board ->
                         val boardWeeks = weeks.value.filter { it.boardId == board.id }
