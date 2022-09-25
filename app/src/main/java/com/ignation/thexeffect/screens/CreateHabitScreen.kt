@@ -48,7 +48,6 @@ fun CreateHabitScreen(
     boards: State<List<Board>>,
     weeks: State<List<Week>>
 ) {
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -65,61 +64,39 @@ fun CreateHabitScreen(
             )
         }
     ) {
-        Surface(
-            modifier = Modifier
-                .padding(8.dp)
-        ) {
-            CreateHabitContent(navController, habitViewModel, cardId, boards, weeks)
+        val title = remember {
+            mutableStateOf("")
         }
-    }
-}
 
-@Composable
-fun CreateHabitContent(
-    navController: NavController,
-    habitViewModel: HabitViewModel,
-    cardId: Long,
-    boards: State<List<Board>>,
-    weeks: State<List<Week>>
-) {
-
-    val title = remember {
-        mutableStateOf("")
-    }
-
-    val startDate = remember {
-        mutableStateOf(Calendar.getInstance())
-    }
-
-    val typeState = remember {
-        mutableStateOf(true)
-    }
-
-    val weeksList = mutableMapOf<Int, Week>()
-
-    if (cardId > -1) {
-        val board = boards.value.filter { it.id == cardId }[0]
-        val week = weeks.value.filter { it.boardId == cardId }
-
-        title.value = board.title
-
-        typeState.value = board.isCreateHabit
-
-        for (i in 0..week.lastIndex) {
-            weeksList[i + 1] = week[i]
+        val startDate = remember {
+            mutableStateOf(Calendar.getInstance())
         }
-    }
 
-    val scrollState = rememberScrollState()
+        val typeState = remember {
+            mutableStateOf(true)
+        }
 
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-    ) {
+        val weeksList = mutableMapOf<Int, Week>()
+
+        if (cardId > -1) {
+            val board = boards.value.filter { it.id == cardId }[0]
+            val week = weeks.value.filter { it.boardId == cardId }
+
+            title.value = board.title
+
+            typeState.value = board.isCreateHabit
+
+            for (i in 0..week.lastIndex) {
+                weeksList[i + 1] = week[i]
+            }
+        }
+
+        val scrollState = rememberScrollState()
+
         Column(
             modifier = Modifier
-                .padding(horizontal = 8.dp)
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
                 .verticalScroll(scrollState)
         ) {
             SetTitle(title)

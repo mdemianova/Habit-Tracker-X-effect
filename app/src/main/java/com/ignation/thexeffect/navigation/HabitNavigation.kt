@@ -1,6 +1,5 @@
 package com.ignation.thexeffect.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -9,9 +8,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.ignation.thexeffect.screens.HabitViewModel
 import com.ignation.thexeffect.screens.CreateHabitScreen
 import com.ignation.thexeffect.screens.DetailsScreen
+import com.ignation.thexeffect.screens.HabitViewModel
 import com.ignation.thexeffect.screens.TitleScreen
 
 @Composable
@@ -28,7 +27,6 @@ fun HabitNavigation() {
         startDestination = HabitScreens.TitleScreen.name
     ) {
         composable(HabitScreens.TitleScreen.name) {
-            Log.d("Navigation", "Title called")
             TitleScreen(
                 navController = navController,
                 boards = boardsState,
